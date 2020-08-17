@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
+import { ProductCategory } from './models/enums/product-category.enum'
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'list-app-frontend';
+
+  title: string;
+
+  constructor () {
+    this.title = 'list-app';
+  }
+
 }

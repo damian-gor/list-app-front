@@ -1,0 +1,22 @@
+<div class="card my-5">
+    <div class="card-body">
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Kategoria</th>
+            <th scope="col">Jedn.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products">
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ productsCategoryMap.get(product.category) }}</td>
+            <td>{{ productsUnitMap.get(product.unit) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
