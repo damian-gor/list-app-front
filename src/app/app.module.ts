@@ -13,6 +13,8 @@ import { ShoppingListComponent } from './components/shopping-list/shopping-list.
 import { ShoppingListService } from './services/shoppingList/shopping-list.service';
 import { ProductItemService } from './services/shoppingList/productItem/product-item.service';
 import { ProductItemFormComponent } from './components/shopping-list/product-item-form/product-item-form.component';
+import {DataTablesModule} from 'angular-datatables';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { ProductItemFormComponent } from './components/shopping-list/product-ite
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    DataTablesModule
   ],
   providers: [ProductService, SharedService, ShoppingListService, ProductItemService],
   bootstrap: [AppComponent]

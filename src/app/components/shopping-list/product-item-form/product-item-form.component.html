@@ -1,35 +1,42 @@
-<form (ngSubmit)="onSubmit(productItemForm)" #productItemForm="ngForm">
-  <div class="form-group">
-    <label for="name">Nazwa</label>
-    <input type="text" [(ngModel)]="productItem.name" class="form-control" id="name" name="name"
-      placeholder="Wprowadź nazwę produktu" required #name="ngModel">
+<!-- <div class="card my-5"> -->
+  <div class="card-body">
+    <h2>Dodaj produkt do listy</h2>
+    <form (ngSubmit)="onSubmit(productItemForm)" #productItemForm="ngForm">
+      <div class="form-group">
+        <label for="name">Nazwa</label>
+        <input type="text" [(ngModel)]="productItem.name" class="form-control" id="name" name="name"
+          placeholder="Wprowadź nazwę produktu" required #name="ngModel">
+      </div>
+      <div class="form-group">
+        <label for="quantity">Ilość</label>
+        <input type="number" [(ngModel)]="productItem.quantity" class="form-control" id="quantity" name="quantity"
+          placeholder="Wprowadź ilość" required #name="ngModel" min="0">
+      </div>
+      <div class="form-group">
+        <label for="categry">Kategoria</label>
+        <select [(ngModel)]="productItem.category" class="form-control" id="category" name="category"
+          #category="ngModel">
+          <option value=null style="font-style: italic;">Wybierz kategorię</option>
+          <option *ngFor="let key of productCategoriesKeys" [value]="key">
+            {{ productsCategoryMap.get(key) }}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="unit">Jednostka</label>
+        <select [(ngModel)]="productItem.unit" class="form-control" id="unit" name="unit" #unit="ngModel">
+          <option value=null style="font-style: italic;">Wybierz jednostkę</option>
+          <option *ngFor="let key of productUnitsKeys" [value]="key">
+            {{ productsUnitMap.get(key) }}
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="checkbox" [(ngModel)]="productItem.ifAddToDb" class="form-control" id="ifAddToDb" name="ifAddToDb"
+          #ifAddToDb="ngModel" style="margin-right: 5px; display: flex;">
+        <label for="ifAddToDb">Dodaj do bazy produktów</label>
+      </div>
+      <button type="submit"
+        [disabled]="!productItemForm.form.valid || productItemForm.form.value.quantity<0 || productItem.category == null"
+        class="btn btn-info">Dodaj</button>
+    </form>
   </div>
-  <div class="form-group">
-    <label for="quantity">Ilość</label>
-    <input type="number" [(ngModel)]="productItem.quantity" class="form-control" id="quantity" name="quantity"
-      placeholder="Wprowadź ilość" required #name="ngModel" min="0">
-  </div>
-  <div class="form-group">
-    <label for="categry">Kategoria</label>
-    <select [(ngModel)]="productItem.category" class="form-control" id="category" name="category" #category="ngModel">
-      <option value=null style="font-style: italic;">Wybierz kategorię</option>
-      <option *ngFor="let key of productCategoriesKeys" [value]="key">
-        {{ productsCategoryMap.get(key) }}
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="unit">Jednostka</label>
-    <select [(ngModel)]="productItem.unit" class="form-control" id="unit" name="unit" #unit="ngModel">
-      <option value=null style="font-style: italic;">Wybierz jednostkę</option>
-      <option *ngFor="let key of productUnitsKeys" [value]="key">
-        {{ productsUnitMap.get(key) }}
-    </select>
-  </div>
-  <div class="form-group">
-    <input type="checkbox" [(ngModel)]="productItem.ifAddToDb" class="form-control" id="ifAddToDb" 
-    name="ifAddToDb" #ifAddToDb="ngModel" style="margin-right: 5px; display: flex;">
-    <label for="ifAddToDb">Dodaj do bazy produktów</label>
-  </div>
-  <button type="submit" [disabled]="!productItemForm.form.valid || productItemForm.form.value.quantity<0"
-    class="btn btn-info">Dodaj</button>
-</form>
+<!-- </div> -->

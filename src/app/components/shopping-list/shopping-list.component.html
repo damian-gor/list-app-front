@@ -1,27 +1,26 @@
 <div class="card my-5">
   <div class="card-body">
-    <app-product-item-form (formSubmit)="addProductItem($event)"></app-product-item-form>
-    <table class="table table-bordered table-striped"  id="shopping-list-table">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Kategoria</th>
-          <th scope="col">Nazwa</th>
-          <th scope="col">Ilość</th>
-          <th scope="col">Jedn.</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of productsList" class="product-item"
+    <div>
+      <button type="button" class="btn btn-success" (click)="toggleAllCategories()" id="allCategoriesBtn">
+        Wyświetl wszystkie kategorie</button>
+        <br>
+        <div id="category-buttons">
+          <button type="button" class="btn btn-light category-btn" *ngFor="let category of productCategoriesKeys"
+          (click)="filterByCategory($event)" id="{{ category }}">
+          {{ productsCategoryMap.get(category) }}</button>
+        </div>
+      </div>
+      <h1>LISTA ZAKUPÓW</h1>
+      <ul id="shopping-list-table" *ngIf="productsList" class="list-group">
+        <li *ngFor="let product of productsList" class="product-item list-group-item {{ product.category }}"
         [ngClass]="{
           'bought': product.productStatus === 'BOUGHT',
-          'not-available': product.productStatus === 'NOT_AVAILABLE' }">
-            <td>{{ productsCategoryMap.get(product.category) }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.quantity }}</td>
-            <td>{{ productsUnitMap.get(product.unit) }}</td>
-        </tr>
-      </tbody>
-    </table>
-    
+          'not-available': product.productStatus === 'NOT_AVAILABLE'
+        }">
+        {{ product.quantity }} {{ product.unit }}: <b>{{ product.name }}</b>
+      </li>
+    </ul>
+    <br>
+    <app-product-item-form (formSubmit)="addProductItem($event)"></app-product-item-form>
   </div>
 </div>
