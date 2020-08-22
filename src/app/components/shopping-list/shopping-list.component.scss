@@ -20,3 +20,46 @@
 //   width: 100%;
 //   height: 1px;
 // }
+
+.list-item-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  padding: 20px;
+  // text-align: center;
+  // text-decoration: none;
+  display: inline-block;
+  // font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  // background-image: url('../../../assets/icons/checked.svg');
+  // background-position: center;
+}
+
+.bought-btn {
+  background-image: url('../../../assets/icons/checked.svg');
+}
+
+.notAvailable-btn {
+  background-image: url('../../../assets/icons/sad.svg');
+  background-position: center;
+  float: right;
+  padding-right: 10vh;
+}
+
+.delete-btn {
+  background-image: url('../../../assets/icons/trash.svg');
+  background-position: center;
+  float: right
+}
+
+.edit-btn {
+  background-image: url('../../../assets/icons/edit.svg');
+  background-position: center;
+  float: right
+}
+
+.hidden {
+  display: none;
+}

@@ -1,6 +1,5 @@
 <!-- <div class="card my-5"> -->
-  <div class="card-body">
-    <h2>Dodaj produkt do listy</h2>
+  <div class="card-body border">
     <form (ngSubmit)="onSubmit(productItemForm)" #productItemForm="ngForm">
       <div class="form-group">
         <label for="name">Nazwa</label>
@@ -29,10 +28,10 @@
             {{ productsUnitMap.get(key) }}
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group" style="display: flex;">
         <input type="checkbox" [(ngModel)]="productItem.ifAddToDb" class="form-control" id="ifAddToDb" name="ifAddToDb"
           #ifAddToDb="ngModel" style="margin-right: 5px; display: flex;">
-        <label for="ifAddToDb">Dodaj do bazy produktów</label>
+        <label for="ifAddToDb" class='checkbox-label'>Dodaj do bazy produktów</label>
       </div>
       <button type="submit"
         [disabled]="!productItemForm.form.valid || productItemForm.form.value.quantity<0 || productItem.category == null"

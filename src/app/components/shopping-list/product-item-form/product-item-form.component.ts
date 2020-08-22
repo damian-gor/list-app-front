@@ -18,7 +18,7 @@ import { Product } from 'src/app/models/product';
 })
 export class ProductItemFormComponent implements OnInit {
 
-  productItem: ProductItem;
+  @Input() productItem: ProductItem;
   productsCategoryMap: Map<String,String>;
   productCategoriesKeys = Object.keys(ProductCategory);
   productsUnitMap: Map<String,String>;
@@ -34,10 +34,12 @@ export class ProductItemFormComponent implements OnInit {
     private productService: ProductService,
     private sharedService: SharedService,
     private productItemService: ProductItemService) { 
-      this.productItem = new ProductItem();
-      this.productItem.category = null;
-      this.productItem.unit = null;
-      this.productItem.productStatus = ProductItemStatus.IN_PROGRESS;
+      this.resetProductItem();
+
+      // this.productItem = new ProductItem();
+      // this.productItem.category = null;
+      // this.productItem.unit = null;
+      // this.productItem.productStatus = ProductItemStatus.IN_PROGRESS;
     }
 
   ngOnInit(): void {
@@ -63,13 +65,22 @@ export class ProductItemFormComponent implements OnInit {
       this.formSubmit.emit(result));
 
     form.reset();
+    this.resetProductItem();
 
+    // this.productItem = new ProductItem();
+    // this.productItem.category = null;
+    // this.productItem.unit = null;
+    // this.productItem.ifAddToDb = false;
+    // this.productItem.productStatus = ProductItemStatus.IN_PROGRESS;
+    
+  }
+
+  resetProductItem() {
     this.productItem = new ProductItem();
     this.productItem.category = null;
     this.productItem.unit = null;
     this.productItem.ifAddToDb = false;
     this.productItem.productStatus = ProductItemStatus.IN_PROGRESS;
-    
   }
 
 }

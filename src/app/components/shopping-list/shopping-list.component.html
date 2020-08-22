@@ -1,10 +1,19 @@
 <div class="card my-5">
   <div class="card-body">
     <div>
+      <button (click)="toggleAddNewProductItemForm()" class="btn btn-primary">Dodaj nowy produkt</button>
+      <app-product-item-form (formSubmit)="addProductItem($event)" id='addNewProductItemForm' class='hidden'></app-product-item-form>
+      <br>
+      <div class="border">
+        <p style="margin-bottom: auto;"><i>Opcje wyświetlania</i></p>
       <button type="button" class="btn btn-success" (click)="toggleAllCategories()" id="allCategoriesBtn">
-        Wyświetl wszystkie kategorie</button>
+        Wyświetl produkty wszystkich kategorii</button>
+      <button type="button" class="btn btn-light" (click)="toggleRealisedProductItems()" id="toggleRealisedBtn">
+        Ukryj zrealizowane elementy</button>
+      </div>
         <br>
-        <div id="category-buttons">
+        <div id="category-buttons" class="border">
+          <p style="margin-bottom: auto;"><i>Kategorie</i></p>
           <button type="button" class="btn btn-light category-btn" *ngFor="let category of productCategoriesKeys"
           (click)="filterByCategory($event)" id="{{ category }}">
           {{ productsCategoryMap.get(category) }}</button>
@@ -17,10 +26,14 @@
           'bought': product.productStatus === 'BOUGHT',
           'not-available': product.productStatus === 'NOT_AVAILABLE'
         }">
-        {{ product.quantity }} {{ product.unit }}: <b>{{ product.name }}</b>
+        <button (click)="setAsBought($event, product)" class="list-item-button bought-btn"></button>
+        <span>
+          {{ product.quantity }} {{ product.unit }}: <b> {{ product.name }} </b> <i> ({{ productsCategoryMap.get(product.category) }})</i>
+        </span>
+        <button (click)="removeElement($event, product)" class="list-item-button delete-btn"></button>
+        <button (click)="editElement($event, product)" class="list-item-button edit-btn"></button>
+        <button (click)="setAsNotAvailable($event, product)" class="list-item-button notAvailable-btn"></button>
       </li>
     </ul>
-    <br>
-    <app-product-item-form (formSubmit)="addProductItem($event)"></app-product-item-form>
   </div>
 </div>
