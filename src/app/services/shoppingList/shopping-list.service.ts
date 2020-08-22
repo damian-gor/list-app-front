@@ -19,9 +19,20 @@ export class ShoppingListService {
     return this.http.get<ShoppingList>(this.shoppingListUrl);
   }
 
-  public addProductItemToShoppingList(productItem: ProductItem, shoppingListId: number){
-    var url = this.shoppingListUrl + "?shoppingListId=" + shoppingListId;
-    return this.http.patch<ShoppingList>(url, productItem);
+  public addProductItemToShoppingList(newProductItem: ProductItem, shoppingListId: number){
+    var url = this.shoppingListUrl + "/addProductItemToList" + "?shoppingListId=" + shoppingListId;
+    return this.http.put<ShoppingList>(url, newProductItem);
   }
+  
+  public updateProductItemInShoppingList(updatedProductItem: ProductItem, shoppingListId: number) {
+    var url = this.shoppingListUrl + "/updateProductItemInList" + "?shoppingListId=" + shoppingListId;
+    return this.http.patch<ShoppingList>(url, updatedProductItem);
+  };
+
+  public removeProductItemFromList(removedProductItem: ProductItem, shoppingListId: number) {
+    var url = this.shoppingListUrl + "/removeProductItemFromList" + "?shoppingListId=" + shoppingListId;
+    return this.http.patch(url, removedProductItem);
+  };
+
 
 }

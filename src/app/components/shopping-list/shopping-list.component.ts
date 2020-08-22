@@ -6,6 +6,8 @@ import { ProductItem } from 'src/app/models/product-item';
 import { ProductCategory } from 'src/app/models/enums/product-category.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { EditItemModalComponent } from '../modals/edit-item-modal/edit-item-modal.component';
+import { ProductItemStatus } from 'src/app/models/enums/product-item-status.enum';
+import { ProductItemService } from 'src/app/services/shoppingList/productItem/product-item.service';
 
 
 @Component({
@@ -27,6 +29,7 @@ export class ShoppingListComponent implements OnInit {
 
   constructor(private shoppingListService: ShoppingListService,
     private sharedService: SharedService,
+    private productItemService: ProductItemService,
     public dialog: MatDialog) {
     this.productsCategoryMap = this.sharedService.productsCategoryMap;
     this.productsUnitMap = this.sharedService.productsUnitMap;
@@ -120,6 +123,7 @@ export class ShoppingListComponent implements OnInit {
   }
 
   checkAvailableCategoriesBtns() {
+    this.availavleCategories = [];
     this.productsList.forEach(p => {
       if (!this.availavleCategories.includes(p.category)) this.availavleCategories.push(p.category);
     });
@@ -134,30 +138,27 @@ export class ShoppingListComponent implements OnInit {
   }
 
   setAsBought(event, productItem: ProductItem) {
-    if (!event.target.parentElement.classList.contains("bought"))
-      event.target.parentElement.classList.add("bought");
-    else {
-      event.target.parentElement.classList.remove("bought");
-    }
-    event.target.parentElement.classList.remove("not-available");
+    productItem.productStatus != ProductItemStatus.BOUGHT ?
+      productItem.productStatus = ProductItemStatus.BOUGHT : productItem.productStatus = ProductItemStatus.IN_PROGRESS;
 
-    // send data to server
+    this.updateProductItemInShoppingList(productItem);
   };
 
   setAsNotAvailable(event, productItem: ProductItem) {
-    if (!event.target.parentElement.classList.contains("not-available"))
-      event.target.parentElement.classList.add("not-available");
-    else {
-      event.target.parentElement.classList.remove("not-available");
-    }
-    event.target.parentElement.classList.remove("bought");
+    productItem.productStatus != ProductItemStatus.NOT_AVAILABLE ?
+      productItem.productStatus = ProductItemStatus.NOT_AVAILABLE : productItem.productStatus = ProductItemStatus.IN_PROGRESS;
 
-    //send data to server
+    this.updateProductItemInShoppingList(productItem);
   };
 
   removeElement(event, productItem: ProductItem) {
-    console.log("remove " + productItem)
     // modal 'are U sure'
+    this.shoppingListService.removeProductItemFromList(productItem, this.shoppingList.id)
+      .subscribe(response => {
+        this.productsList.splice(this.productsList.indexOf(productItem), 1);
+        this.checkAvailableCategoriesBtns();
+      }
+      );
   };
 
   editElement(event, oldProductItem: ProductItem) {
@@ -172,6 +173,7 @@ export class ShoppingListComponent implements OnInit {
         oldProductItem.quantity = updatedProductItem.quantity;
         oldProductItem.category = updatedProductItem.category;
         oldProductItem.unit = updatedProductItem.unit;
+        this.checkAvailableCategoriesBtns();
       }
     });
   }
@@ -182,6 +184,7 @@ export class ShoppingListComponent implements OnInit {
 
 
   toggleRealisedProductItems() {
+    console.log(this.productsList);
     $("#toggleRealisedBtn").toggleClass(["btn-success", "btn-light"])
     if ($("#toggleRealisedBtn").hasClass("btn-success")) {
       $("#shopping-list-table li").toArray().forEach(item => {
@@ -194,7 +197,15 @@ export class ShoppingListComponent implements OnInit {
           item.classList.remove("hidden");
       });
     }
-
   }
+
+  updateProductItemInShoppingList(updatedProductItem: ProductItem) {
+    this.shoppingListService.updateProductItemInShoppingList(updatedProductItem, this.shoppingList.id)
+      .subscribe(result => {
+        this.productsList = result.productsList;
+        this.checkAvailableCategoriesBtns();
+      });
+  };
+
 }
 

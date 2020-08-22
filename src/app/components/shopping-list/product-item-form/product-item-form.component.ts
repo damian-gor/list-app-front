@@ -19,9 +19,9 @@ import { Product } from 'src/app/models/product';
 export class ProductItemFormComponent implements OnInit {
 
   @Input() productItem: ProductItem;
-  productsCategoryMap: Map<String,String>;
+  productsCategoryMap: Map<String, String>;
   productCategoriesKeys = Object.keys(ProductCategory);
-  productsUnitMap: Map<String,String>;
+  productsUnitMap: Map<String, String>;
   productUnitsKeys = Object.keys(ProductUnit);
 
   @Output() formSubmit: EventEmitter<ProductItem> = new EventEmitter<ProductItem>();
@@ -33,21 +33,16 @@ export class ProductItemFormComponent implements OnInit {
     private shoppingListService: ShoppingListService,
     private productService: ProductService,
     private sharedService: SharedService,
-    private productItemService: ProductItemService) { 
-      this.resetProductItem();
-
-      // this.productItem = new ProductItem();
-      // this.productItem.category = null;
-      // this.productItem.unit = null;
-      // this.productItem.productStatus = ProductItemStatus.IN_PROGRESS;
-    }
+    private productItemService: ProductItemService) {
+    this.resetProductItem();
+  }
 
   ngOnInit(): void {
     this.productsCategoryMap = this.sharedService.productsCategoryMap;
     this.productsUnitMap = this.sharedService.productsUnitMap;
   }
 
-  onSubmit (form: NgForm){
+  onSubmit(form: NgForm) {
     this.productItem.name = form.value.name;
     this.productItem.quantity = form.value.quantity;
     this.productItem.category = form.value.category;
@@ -58,21 +53,21 @@ export class ProductItemFormComponent implements OnInit {
       product.name = this.productItem.name;
       product.category = this.productItem.category;
       product.unit = this.productItem.unit;
-      this.productService.addProduct(product).subscribe(data  => this.productItem.sourceProductId = data.id)
+      this.productService.addProduct(product).subscribe(data => {
+        this.productItem.sourceProductId = data.id;
+        this.productItemService.addProductItem(this.productItem).subscribe(result => {
+          this.formSubmit.emit(result);
+          form.reset();
+          this.resetProductItem();
+        }
+        );
+      })
+    } else {
+      this.productItemService.addProductItem(this.productItem).subscribe(result =>
+        this.formSubmit.emit(result));
+      form.reset();
+      this.resetProductItem();
     }
-
-    this.productItemService.addProductItem(this.productItem).subscribe(result => 
-      this.formSubmit.emit(result));
-
-    form.reset();
-    this.resetProductItem();
-
-    // this.productItem = new ProductItem();
-    // this.productItem.category = null;
-    // this.productItem.unit = null;
-    // this.productItem.ifAddToDb = false;
-    // this.productItem.productStatus = ProductItemStatus.IN_PROGRESS;
-    
   }
 
   resetProductItem() {

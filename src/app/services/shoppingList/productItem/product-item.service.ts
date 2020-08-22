@@ -19,4 +19,8 @@ export class ProductItemService {
     return this.http.post<ProductItem>(this.productItemUrl, productItem);
   }
 
+  public deleteProductItem(productItemId: number) {
+    var url = this.productItemUrl + "?productItemId=" + productItemId;
+    return this.http.delete(url);
+  }
 }
