@@ -1,24 +1,45 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card bg-dark my-5">
-        <div class="card-body">
-          <h2 class="card-title text-center text-white py-3">{{ title }}</h2>
-          <ul class="text-center list-inline py-3">
-            <li class="list-inline-item">
-              <a routerLink="/products" class="btn btn-info">Lista produktów</a>
-                </li>
-            <li class="list-inline-item">
-              <a routerLink="/addProduct" class="btn btn-info">Dodaj produkt</a>
-                </li>
-            <li class="list-inline-item">
-              <a routerLink="/shoppingList" class="btn btn-info">Lista zakupów</a>
-                </li>
-          </ul>
-        </div>
-      </div>
-      <!-- router-outlet jest miejscem w ktorym pojawi sie renderowany komponent -->
-      <router-outlet></router-outlet>
-    </div>
+<div id="app">
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="#" class="navbar-brand">{{ title }}</a>
+    <ul class="navbar-nav mr-auto" routerLinkActive="active">
+      <li class="nav-item" *ngIf="showAdminBoard">
+        <a href="/admin" class="nav-link" routerLink="admin">Panel administracyjny</a>
+      </li>
+      <li class="nav-item">
+        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav mc-auto" routerLinkActive="active">
+      <li class="nav-item">
+        <a href="/products" class="nav-link" routerLink="products">Baza produktów</a>
+      </li>
+      <li class="nav-item">
+        <a href="/shoppingList" class="nav-link" routerLink="shoppingList">Lista zakupów</a>
+      </li>
+    </ul>
+
+
+    <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
+      <li class="nav-item">
+        <a href="/register" class="nav-link" routerLink="register">Zaloguj</a>
+      </li>
+      <li class="nav-item">
+        <a href="/login" class="nav-link" routerLink="login">Login</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
+      <li class="nav-item">
+        <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>
+      </li>
+      <li class="nav-item">
+        <a href class="nav-link" (click)="logout()">Wyloguj</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <router-outlet></router-outlet>
   </div>
 </div>

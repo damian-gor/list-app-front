@@ -17,6 +17,15 @@ import { DataTablesModule } from 'angular-datatables';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditItemModalComponent } from './components/modals/edit-item-modal/edit-item-modal.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { BoardAdminComponent } from './components/board-admin/board-admin.component';
+import { BoardUserComponent } from './components/board-user/board-user.component';
+import { HomeComponent } from './components/home/home.component';
+
+import { authInterceptorProviders } from './interceptors/auth.interceptor';
+
 
 
 
@@ -27,7 +36,13 @@ import { EditItemModalComponent } from './components/modals/edit-item-modal/edit
     ProductFormComponent,
     ShoppingListComponent,
     ProductItemFormComponent,
-    EditItemModalComponent
+    EditItemModalComponent,
+    LoginComponent,
+    RegisterComponent,
+    ProfileComponent,
+    BoardAdminComponent,
+    BoardUserComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +53,7 @@ import { EditItemModalComponent } from './components/modals/edit-item-modal/edit
     BrowserAnimationsModule,
     MatDialogModule
   ],
-  providers: [ProductService, SharedService, ShoppingListService, ProductItemService],
+  providers: [ProductService, SharedService, ShoppingListService, ProductItemService, authInterceptorProviders],
   entryComponents: [EditItemModalComponent],
   bootstrap: [AppComponent]
 })
