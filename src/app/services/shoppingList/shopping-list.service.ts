@@ -15,9 +15,27 @@ export class ShoppingListService {
     this.shoppingListUrl = 'http://localhost:8080/shoppingList';
   }
 
-  public getShoppingList():Observable<ShoppingList> {
-    return this.http.get<ShoppingList>(this.shoppingListUrl);
+  public getShoppingList(shoppingListId: number):Observable<ShoppingList> {
+    var url = this.shoppingListUrl +  "/" + shoppingListId;
+    return this.http.get<ShoppingList>(url);
   }
+
+  public deleteShoppingList(shoppingListId: number) {
+    var url = this.shoppingListUrl +  "?shoppingListId=" + shoppingListId;
+    return this.http.delete(url);
+  }
+  
+  
+  public getAllShoppingLists():Observable<ShoppingList[]> {
+    return this.http.get<ShoppingList[]>(this.shoppingListUrl);
+  }
+  
+  public getShoppingListsByBuyerId (buyerId: number):Observable<ShoppingList[]> {
+    var url = this.shoppingListUrl +  "?buyerId=" + buyerId;
+    return 
+  }
+
+  
 
   public addProductItemToShoppingList(newProductItem: ProductItem, shoppingListId: number){
     var url = this.shoppingListUrl + "/addProductItemToList" + "?shoppingListId=" + shoppingListId;

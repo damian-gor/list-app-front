@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter } from '@angular/core';
 import { ShoppingList } from '../../models/shopping-list'
 import { SharedService } from 'src/app/services/sharedService/shared.service';
 import { ShoppingListService } from 'src/app/services/shoppingList/shopping-list.service';
@@ -17,10 +17,12 @@ import { ProductItemService } from 'src/app/services/shoppingList/productItem/pr
 })
 export class ShoppingListComponent implements OnInit {
 
+  @Input() private uploadSuccess: EventEmitter<String>;
+  @Input() selectedListId: any;
   shoppingList: ShoppingList;
   productsCategoryMap: Map<String, String>;
   productsUnitMap: Map<String, String>;
-  @Input() addedProductItem: ProductItem;
+  addedProductItem: ProductItem;
   productsList: ProductItem[] = new Array<ProductItem>();
   productCategoriesKeys = Object.keys(ProductCategory);
   selectedCategoriesList: String[] = new Array<String>();
@@ -33,22 +35,27 @@ export class ShoppingListComponent implements OnInit {
     public dialog: MatDialog) {
     this.productsCategoryMap = this.sharedService.productsCategoryMap;
     this.productsUnitMap = this.sharedService.productsUnitMap;
-    this.shoppingListService.getShoppingList().subscribe(data => {
-      this.shoppingList = data;
-      this.productsList = this.shoppingList.productsList;
-      this.checkAvailableCategoriesBtns();
-    });
   }
-
-
+  
+  
   ngOnInit(): void {
+    console.log(this.selectedListId)
+    if (this.uploadSuccess) {
+      this.uploadSuccess.subscribe(data => {
+        this.shoppingListService.getShoppingList(data).subscribe(data => {
+          this.shoppingList = data;
+          this.productsList = this.shoppingList.productsList;
+          this.checkAvailableCategoriesBtns();
+        });
+      });
+    }
 
   };
 
   addProductItem(newProductItem: ProductItem) {
-    this.shoppingListService.addProductItemToShoppingList(newProductItem, this.shoppingList.id)
+    this.shoppingListService.addProductItemToShoppingList(newProductItem, this.selectedListId)
       .subscribe(result => {
-        this.productsList = result.productsList;
+        this.productsList.push(result.productsList[result.productsList.length - 1]);
         this.checkAvailableCategoriesBtns();
       });
   };
@@ -124,9 +131,16 @@ export class ShoppingListComponent implements OnInit {
 
   checkAvailableCategoriesBtns() {
     this.availavleCategories = [];
-    this.productsList.forEach(p => {
-      if (!this.availavleCategories.includes(p.category)) this.availavleCategories.push(p.category);
-    });
+    if ($("#toggleRealisedBtn").hasClass("btn-success")) {
+      this.productsList.forEach(p => {
+        if (p.productStatus == ProductItemStatus.IN_PROGRESS && !this.availavleCategories.includes(p.category))
+          this.availavleCategories.push(p.category);
+      });
+    } else {
+      this.productsList.forEach(p => {
+        if (!this.availavleCategories.includes(p.category)) this.availavleCategories.push(p.category);
+      });
+    }
 
     $("#category-buttons .btn").toArray().forEach(btn => {
       if (this.availavleCategories.includes(btn.id)) {
@@ -141,19 +155,19 @@ export class ShoppingListComponent implements OnInit {
     productItem.productStatus != ProductItemStatus.BOUGHT ?
       productItem.productStatus = ProductItemStatus.BOUGHT : productItem.productStatus = ProductItemStatus.IN_PROGRESS;
 
-    this.updateProductItemInShoppingList(productItem);
+    this.updateProductItemStatusInShoppingList(productItem);
   };
 
   setAsNotAvailable(event, productItem: ProductItem) {
     productItem.productStatus != ProductItemStatus.NOT_AVAILABLE ?
       productItem.productStatus = ProductItemStatus.NOT_AVAILABLE : productItem.productStatus = ProductItemStatus.IN_PROGRESS;
 
-    this.updateProductItemInShoppingList(productItem);
+    this.updateProductItemStatusInShoppingList(productItem);
   };
 
   removeElement(event, productItem: ProductItem) {
     // modal 'are U sure'
-    this.shoppingListService.removeProductItemFromList(productItem, this.shoppingList.id)
+    this.shoppingListService.removeProductItemFromList(productItem, this.selectedListId)
       .subscribe(response => {
         this.productsList.splice(this.productsList.indexOf(productItem), 1);
         this.checkAvailableCategoriesBtns();
@@ -162,9 +176,19 @@ export class ShoppingListComponent implements OnInit {
   };
 
   editElement(event, oldProductItem: ProductItem) {
+
+    var productItemTemplate = new ProductItem();
+    productItemTemplate.category = oldProductItem.category;
+    productItemTemplate.name = oldProductItem.name;
+    productItemTemplate.quantity = oldProductItem.quantity;
+    productItemTemplate.unit = oldProductItem.unit;
+
     const dialogRef = this.dialog.open(EditItemModalComponent, {
       width: '580px',
-      data: oldProductItem
+      data: {
+        productItem: productItemTemplate,
+        dialogTitle: "Edytuj element: " + productItemTemplate.name
+      }
     })
 
     dialogRef.afterClosed().subscribe(updatedProductItem => {
@@ -178,13 +202,20 @@ export class ShoppingListComponent implements OnInit {
     });
   }
 
-  toggleAddNewProductItemForm() {
-    $("#addNewProductItemForm").toggleClass('hidden');
+  addElement() {
+    const dialogRef = this.dialog.open(EditItemModalComponent, {
+      width: '580px',
+      data: {
+        dialogTitle: "Dodaj produkt do listy"
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(newProductItem => {
+      if (newProductItem) this.addProductItem(newProductItem)
+    });
   }
 
-
   toggleRealisedProductItems() {
-    console.log(this.productsList);
     $("#toggleRealisedBtn").toggleClass(["btn-success", "btn-light"])
     if ($("#toggleRealisedBtn").hasClass("btn-success")) {
       $("#shopping-list-table li").toArray().forEach(item => {
@@ -197,15 +228,18 @@ export class ShoppingListComponent implements OnInit {
           item.classList.remove("hidden");
       });
     }
+    this.checkAvailableCategoriesBtns();
   }
 
-  updateProductItemInShoppingList(updatedProductItem: ProductItem) {
-    this.shoppingListService.updateProductItemInShoppingList(updatedProductItem, this.shoppingList.id)
-      .subscribe(result => {
-        this.productsList = result.productsList;
+  // Pomocnicza: zaktualizowanie statutsu elementu z liście w DB
+  updateProductItemStatusInShoppingList(updatedProductItem: ProductItem) {
+    this.productItemService.addProductItem(updatedProductItem)
+      .subscribe(() => {
+        if (updatedProductItem.productStatus != ProductItemStatus.IN_PROGRESS &&
+          $("#toggleRealisedBtn").hasClass("btn-success"))
+          $('#' + updatedProductItem.id).addClass("hidden");
         this.checkAvailableCategoriesBtns();
-      });
+      })
   };
-
 }
 

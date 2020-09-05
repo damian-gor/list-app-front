@@ -2,12 +2,6 @@
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <a href="#" class="navbar-brand">{{ title }}</a>
     <ul class="navbar-nav mr-auto" routerLinkActive="active">
-      <li class="nav-item" *ngIf="showAdminBoard">
-        <a href="/admin" class="nav-link" routerLink="admin">Panel administracyjny</a>
-      </li>
-      <li class="nav-item">
-        <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
-      </li>
     </ul>
 
     <ul class="navbar-nav mc-auto" routerLinkActive="active">
@@ -15,21 +9,24 @@
         <a href="/products" class="nav-link" routerLink="products">Baza produktów</a>
       </li>
       <li class="nav-item">
-        <a href="/shoppingList" class="nav-link" routerLink="shoppingList">Lista zakupów</a>
+        <a href="/shoppingListsMenu" class="nav-link" routerLink="shoppingListsMenu">Listy zakupów</a>
       </li>
     </ul>
 
 
     <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
       <li class="nav-item">
-        <a href="/register" class="nav-link" routerLink="register">Zaloguj</a>
+        <a href="/register" class="nav-link" routerLink="register">Dołącz</a>
       </li>
       <li class="nav-item">
-        <a href="/login" class="nav-link" routerLink="login">Login</a>
+        <a href="/login" class="nav-link" routerLink="login">Zaloguj</a>
       </li>
     </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
+      <li class="nav-item" *ngIf="showAdminBoard">
+        <a href="/admin" class="nav-link" routerLink="admin">Panel administracyjny</a>
+      </li>
       <li class="nav-item">
         <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>
       </li>

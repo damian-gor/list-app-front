@@ -1,5 +1,6 @@
-<div class="card my-5">
+<!-- <div class="card my-5"> -->
     <div class="card-body">
+      <h1>LISTA PRODUKTÓW</h1>
       <table class="table table-bordered table-striped" datatable id="product-db-table" *ngIf="products">
         <thead class="thead-dark">
           <tr>
@@ -18,5 +19,6 @@
           </tr>
         </tbody>
       </table>
+      <button (click)="addProduct()" class="btn btn-primary">Dodaj nowy produkt</button>
     </div>
-  </div>
+  <!-- </div> -->

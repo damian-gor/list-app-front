@@ -1,0 +1,4 @@
+<h1 class="title">{{dialogTitle}}</h1>
+
+<app-product-form *ngIf="product" [product]="product" (formSubmit)="updateProduct($event)"></app-product-form>
+<app-product-form *ngIf="product==null" (formSubmit)="addProduct($event)"></app-product-form>

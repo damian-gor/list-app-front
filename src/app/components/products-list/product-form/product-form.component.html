@@ -1,16 +1,15 @@
 <div class="card my-5">
   <div class="card-body">
-    <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+    <form (ngSubmit)="onSubmit(productForm)" #productForm="ngForm">
       <div class="form-group">
         <label for="name">Nazwa</label>
         <input type="text" [(ngModel)]="product.name" class="form-control" id="name" name="name"
           placeholder="Wprowadź nazwę produktu" required #name="ngModel">
       </div>
-      <div [hidden]="!name.pristine" class="alert alert-danger">Nazwa jest wymagana</div>
       <div class="form-group">
         <label for="categry">Kategoria</label>
         <select [(ngModel)]="product.category" class="form-control" id="category" name="category"
-          #category="ngModel">
+          #category="ngModel" required>
           <option value=null style="font-style: italic;">Wybierz kategorię</option>
           <option *ngFor="let key of productCategoriesKeys" [value]="key">
             {{ productsCategoryMap.get(key) }}
@@ -19,7 +18,7 @@
       <div class="form-group">
         <label for="unit">Jednostka</label>
         <select [(ngModel)]="product.unit" class="form-control" id="unit" name="unit"
-          #unit="ngModel">
+          #unit="ngModel" required>
           <option value=null style="font-style: italic;">Wybierz jednostkę</option>
           <option *ngFor="let key of productUnitsKeys" [value]="key">
             {{ productsUnitMap.get(key) }}

@@ -1,0 +1,16 @@
+<div class="card my-1">
+  <div class="card-body">
+
+    <div class="form-group">
+      <label for="listId">Wybierz listę:</label>
+      <select type="number" class="form-control" id="listId" required>
+        <option *ngFor="let list of lists" [value]="list.id">Lista nr {{ list.id }}, sklep: {{ list.shopName }}</option>
+      </select>
+      <button type="submit" (click)="loadList()" class="btn btn-info">Wybierz</button>
+    </div>
+
+  </div>
+  <div id='shopping-list-container' hidden>
+    <app-shopping-list [selectedListId]="selectedListId" [uploadSuccess] = "uploadSuccess"></app-shopping-list>
+  </div>
+</div>

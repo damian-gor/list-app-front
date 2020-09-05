@@ -1,7 +1,9 @@
 export enum ProductUnit {
     SZT = 'szt.',
-    G = 'g',
+    OPK = 'opk.',
+    ZGRZ = 'zgrz.',
     KG = 'kg',
+    G = 'g',
     ML = 'ml',
     L = 'l'
 }

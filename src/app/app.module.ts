@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductsListComponent } from './components/products-list/products-list.component';
-import { ProductFormComponent } from './components/product-form/product-form.component';
+import { ProductFormComponent } from './components/products-list/product-form/product-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductService } from './services/product/product.service';
 import { SharedService } from './services/sharedService/shared.service';
@@ -21,13 +21,11 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { BoardAdminComponent } from './components/board-admin/board-admin.component';
-import { BoardUserComponent } from './components/board-user/board-user.component';
 import { HomeComponent } from './components/home/home.component';
 
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
-
-
-
+import { AddProductModalComponent } from './components/modals/add-product-modal/add-product-modal.component';
+import { ShoppingListsMenuComponent } from './components/shopping-lists-menu/shopping-lists-menu.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +39,9 @@ import { authInterceptorProviders } from './interceptors/auth.interceptor';
     RegisterComponent,
     ProfileComponent,
     BoardAdminComponent,
-    BoardUserComponent,
-    HomeComponent
+    HomeComponent,
+    AddProductModalComponent,
+    ShoppingListsMenuComponent
   ],
   imports: [
     BrowserModule,
