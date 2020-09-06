@@ -26,6 +26,9 @@ import { HomeComponent } from './components/home/home.component';
 import { authInterceptorProviders } from './interceptors/auth.interceptor';
 import { AddProductModalComponent } from './components/modals/add-product-modal/add-product-modal.component';
 import { ShoppingListsMenuComponent } from './components/shopping-lists-menu/shopping-lists-menu.component';
+import { AddListModalComponent } from './components/modals/add-list-modal/add-list-modal.component';
+import { ListFormComponent } from './components/shopping-lists-menu/list-form/list-form.component';
+import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { ShoppingListsMenuComponent } from './components/shopping-lists-menu/sho
     BoardAdminComponent,
     HomeComponent,
     AddProductModalComponent,
-    ShoppingListsMenuComponent
+    ShoppingListsMenuComponent,
+    AddListModalComponent,
+    ListFormComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,7 @@ import { NgForm } from '@angular/forms';
 import { ProductItemService } from 'src/app/services/shoppingList/productItem/product-item.service';
 import { ProductService } from 'src/app/services/product/product.service';
 import { Product } from 'src/app/models/product';
+import { ProductItemDTO } from 'src/app/models/product-item-dto';
 
 @Component({
   selector: 'app-product-item-form',
@@ -18,13 +19,13 @@ import { Product } from 'src/app/models/product';
 })
 export class ProductItemFormComponent implements OnInit {
 
-  @Input() productItem: ProductItem;
+  @Input() productItem: ProductItemDTO;
   productsCategoryMap: Map<String, String>;
   productCategoriesKeys = Object.keys(ProductCategory);
   productsUnitMap: Map<String, String>;
   productUnitsKeys = Object.keys(ProductUnit);
 
-  @Output() formSubmit: EventEmitter<ProductItem> = new EventEmitter<ProductItem>();
+  @Output() formSubmit: EventEmitter<ProductItemDTO> = new EventEmitter<ProductItemDTO>();
 
 
   constructor(
@@ -71,7 +72,7 @@ export class ProductItemFormComponent implements OnInit {
   }
 
   resetProductItem() {
-    this.productItem = new ProductItem();
+    this.productItem = new ProductItemDTO();
     this.productItem.category = null;
     this.productItem.unit = null;
     this.productItem.ifAddToDb = false;

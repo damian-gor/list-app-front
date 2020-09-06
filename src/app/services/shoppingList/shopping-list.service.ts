@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ShoppingList } from 'src/app/models/shopping-list';
-import { ProductItem } from 'src/app/models/product-item';
+import * as global from 'src/global'
+import { ShoppingListDTO } from 'src/app/models/shopping-list-dto';
+import { ProductItemDTO } from 'src/app/models/product-item-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -12,44 +14,51 @@ export class ShoppingListService {
   private shoppingListUrl: string;
 
   constructor(private http: HttpClient) { 
-    this.shoppingListUrl = 'http://localhost:8080/shoppingList';
+    this.shoppingListUrl = global.BACKEND_URL + '/shoppingList';
   }
 
-  public getShoppingList(shoppingListId: number):Observable<ShoppingList> {
+  public getShoppingList(shoppingListId: number):Observable<ShoppingListDTO> {
     var url = this.shoppingListUrl +  "/" + shoppingListId;
-    return this.http.get<ShoppingList>(url);
+    return this.http.get<ShoppingListDTO>(url);
   }
 
   public deleteShoppingList(shoppingListId: number) {
     var url = this.shoppingListUrl +  "?shoppingListId=" + shoppingListId;
     return this.http.delete(url);
   }
-  
-  
-  public getAllShoppingLists():Observable<ShoppingList[]> {
-    return this.http.get<ShoppingList[]>(this.shoppingListUrl);
+
+  public addShoppingList(shoppingList: ShoppingListDTO):Observable<ShoppingListDTO> {
+    return this.http.post<ShoppingListDTO>(this.shoppingListUrl, shoppingList);
+  }
+
+  public updateShoppingList (shoppingList: ShoppingListDTO):Observable<ShoppingListDTO> {
+    return this.http.put<ShoppingListDTO>(this.shoppingListUrl, shoppingList);
   }
   
-  public getShoppingListsByBuyerId (buyerId: number):Observable<ShoppingList[]> {
+  
+  public getAllShoppingLists():Observable<ShoppingListDTO[]> {
+    return this.http.get<ShoppingListDTO[]>(this.shoppingListUrl);
+  }
+  
+  public getShoppingListsByBuyerId (buyerId: number):Observable<ShoppingListDTO[]> {
     var url = this.shoppingListUrl +  "?buyerId=" + buyerId;
     return 
   }
 
   
-
-  public addProductItemToShoppingList(newProductItem: ProductItem, shoppingListId: number){
+  public addProductItemToShoppingList(newProductItemDTO: ProductItemDTO, shoppingListId: number){
     var url = this.shoppingListUrl + "/addProductItemToList" + "?shoppingListId=" + shoppingListId;
-    return this.http.put<ShoppingList>(url, newProductItem);
+    return this.http.put<ShoppingListDTO>(url, newProductItemDTO);
   }
   
-  public updateProductItemInShoppingList(updatedProductItem: ProductItem, shoppingListId: number) {
+  public updateProductItemInShoppingList(updatedProductItemDTO: ProductItemDTO, shoppingListId: number) {
     var url = this.shoppingListUrl + "/updateProductItemInList" + "?shoppingListId=" + shoppingListId;
-    return this.http.patch<ShoppingList>(url, updatedProductItem);
+    return this.http.patch<ShoppingListDTO>(url, updatedProductItemDTO);
   };
 
-  public removeProductItemFromList(removedProductItem: ProductItem, shoppingListId: number) {
+  public removeProductItemFromList(removedProductItemDTO: ProductItemDTO, shoppingListId: number) {
     var url = this.shoppingListUrl + "/removeProductItemFromList" + "?shoppingListId=" + shoppingListId;
-    return this.http.patch(url, removedProductItem);
+    return this.http.patch(url, removedProductItemDTO);
   };
 
 

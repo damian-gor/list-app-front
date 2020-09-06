@@ -1,0 +1,15 @@
+<div class="card my-5">
+  <div class="card-body">
+    <form #listForm="ngForm">
+      <div class="form-group">
+        <label for="shopName">Nazwa sklepu</label>
+        <input type="text" [(ngModel)]="list.shopName" class="form-control" id="shopName" name="shopName"
+          placeholder="Wprowadź nazwę sklepu" required #shopName="ngModel">
+      </div>
+        <button type="submit" [disabled]="!listForm.form.valid" class="btn btn-info" (click)="onSubmit(listForm)">
+          <span *ngIf="list.id == null">Dodaj</span>
+          <span *ngIf="list.id != null">Zapisz</span>
+        </button>
+      </form>
+  </div>
+</div>

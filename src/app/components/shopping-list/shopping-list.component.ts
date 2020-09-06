@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditItemModalComponent } from '../modals/edit-item-modal/edit-item-modal.component';
 import { ProductItemStatus } from 'src/app/models/enums/product-item-status.enum';
 import { ProductItemService } from 'src/app/services/shoppingList/productItem/product-item.service';
+import { ShoppingListDTO } from 'src/app/models/shopping-list-dto';
+import { ProductItemDTO } from 'src/app/models/product-item-dto';
 
 
 @Component({
@@ -19,11 +21,11 @@ export class ShoppingListComponent implements OnInit {
 
   @Input() private uploadSuccess: EventEmitter<String>;
   @Input() selectedListId: any;
-  shoppingList: ShoppingList;
+  shoppingList: ShoppingListDTO;
   productsCategoryMap: Map<String, String>;
   productsUnitMap: Map<String, String>;
-  addedProductItem: ProductItem;
-  productsList: ProductItem[] = new Array<ProductItem>();
+  addedProductItem: ProductItemDTO;
+  productsList: ProductItemDTO[] = new Array<ProductItemDTO>();
   productCategoriesKeys = Object.keys(ProductCategory);
   selectedCategoriesList: String[] = new Array<String>();
   availavleCategories: String[] = new Array<String>();
@@ -39,7 +41,6 @@ export class ShoppingListComponent implements OnInit {
   
   
   ngOnInit(): void {
-    console.log(this.selectedListId)
     if (this.uploadSuccess) {
       this.uploadSuccess.subscribe(data => {
         this.shoppingListService.getShoppingList(data).subscribe(data => {
@@ -52,7 +53,7 @@ export class ShoppingListComponent implements OnInit {
 
   };
 
-  addProductItem(newProductItem: ProductItem) {
+  addProductItem(newProductItem: ProductItemDTO) {
     this.shoppingListService.addProductItemToShoppingList(newProductItem, this.selectedListId)
       .subscribe(result => {
         this.productsList.push(result.productsList[result.productsList.length - 1]);
@@ -151,31 +152,30 @@ export class ShoppingListComponent implements OnInit {
     });
   }
 
-  setAsBought(event, productItem: ProductItem) {
-    productItem.productStatus != ProductItemStatus.BOUGHT ?
-      productItem.productStatus = ProductItemStatus.BOUGHT : productItem.productStatus = ProductItemStatus.IN_PROGRESS;
+  setAsBought(event, productItemDTO: ProductItemDTO) {
+    productItemDTO.productStatus != ProductItemStatus.BOUGHT ?
+    productItemDTO.productStatus = ProductItemStatus.BOUGHT : productItemDTO.productStatus = ProductItemStatus.IN_PROGRESS;
 
-    this.updateProductItemStatusInShoppingList(productItem);
+    this.updateProductItemStatusInShoppingList(productItemDTO);
   };
 
-  setAsNotAvailable(event, productItem: ProductItem) {
-    productItem.productStatus != ProductItemStatus.NOT_AVAILABLE ?
-      productItem.productStatus = ProductItemStatus.NOT_AVAILABLE : productItem.productStatus = ProductItemStatus.IN_PROGRESS;
+  setAsNotAvailable(event, productItemDTO: ProductItemDTO) {
+    productItemDTO.productStatus != ProductItemStatus.NOT_AVAILABLE ?
+    productItemDTO.productStatus = ProductItemStatus.NOT_AVAILABLE : productItemDTO.productStatus = ProductItemStatus.IN_PROGRESS;
 
-    this.updateProductItemStatusInShoppingList(productItem);
+    this.updateProductItemStatusInShoppingList(productItemDTO);
   };
 
-  removeElement(event, productItem: ProductItem) {
-    // modal 'are U sure'
-    this.shoppingListService.removeProductItemFromList(productItem, this.selectedListId)
+  removeElement(event, productItemDTO: ProductItemDTO) {
+    this.shoppingListService.removeProductItemFromList(productItemDTO, this.selectedListId)
       .subscribe(response => {
-        this.productsList.splice(this.productsList.indexOf(productItem), 1);
+        this.productsList.splice(this.productsList.indexOf(productItemDTO), 1);
         this.checkAvailableCategoriesBtns();
       }
       );
   };
 
-  editElement(event, oldProductItem: ProductItem) {
+  editElement(event, oldProductItem: ProductItemDTO) {
 
     var productItemTemplate = new ProductItem();
     productItemTemplate.category = oldProductItem.category;
@@ -191,12 +191,12 @@ export class ShoppingListComponent implements OnInit {
       }
     })
 
-    dialogRef.afterClosed().subscribe(updatedProductItem => {
-      if (updatedProductItem) {
-        oldProductItem.name = updatedProductItem.name;
-        oldProductItem.quantity = updatedProductItem.quantity;
-        oldProductItem.category = updatedProductItem.category;
-        oldProductItem.unit = updatedProductItem.unit;
+    dialogRef.afterClosed().subscribe(updatedProductItemDTO => {
+      if (updatedProductItemDTO) {
+        oldProductItem.name = updatedProductItemDTO.name;
+        oldProductItem.quantity = updatedProductItemDTO.quantity;
+        oldProductItem.category = updatedProductItemDTO.category;
+        oldProductItem.unit = updatedProductItemDTO.unit;
         this.checkAvailableCategoriesBtns();
       }
     });
@@ -210,13 +210,13 @@ export class ShoppingListComponent implements OnInit {
       }
     })
 
-    dialogRef.afterClosed().subscribe(newProductItem => {
-      if (newProductItem) this.addProductItem(newProductItem)
+    dialogRef.afterClosed().subscribe(newProductItemDTO => {
+      if (newProductItemDTO) this.addProductItem(newProductItemDTO)
     });
   }
 
   toggleRealisedProductItems() {
-    $("#toggleRealisedBtn").toggleClass(["btn-success", "btn-light"])
+    $("#toggleRealisedBtn").toggleClass(["btn-success", "btn-light"]);
     if ($("#toggleRealisedBtn").hasClass("btn-success")) {
       $("#shopping-list-table li").toArray().forEach(item => {
         if (item.classList.contains("bought") || item.classList.contains("not-available"))
@@ -231,13 +231,22 @@ export class ShoppingListComponent implements OnInit {
     this.checkAvailableCategoriesBtns();
   }
 
+  toggleAuthor() {
+    $("#toggleAuthorBtn").toggleClass(["btn-success", "btn-light"]);
+    if ($("#toggleAuthorBtn").hasClass("btn-success")) { // ukrywamy autora
+      $('.productItemAuthor').toArray().forEach(a => a.classList.add("hidden"));
+    } else { // pokazujemy
+      $('.productItemAuthor').toArray().forEach(a => a.classList.remove("hidden"));
+    }
+  }
+
   // Pomocnicza: zaktualizowanie statutsu elementu z liście w DB
-  updateProductItemStatusInShoppingList(updatedProductItem: ProductItem) {
-    this.productItemService.addProductItem(updatedProductItem)
+  updateProductItemStatusInShoppingList(updatedProductItemDTO: ProductItemDTO) {
+    this.productItemService.addProductItem(updatedProductItemDTO)
       .subscribe(() => {
-        if (updatedProductItem.productStatus != ProductItemStatus.IN_PROGRESS &&
+        if (updatedProductItemDTO.productStatus != ProductItemStatus.IN_PROGRESS &&
           $("#toggleRealisedBtn").hasClass("btn-success"))
-          $('#' + updatedProductItem.id).addClass("hidden");
+          $('#' + updatedProductItemDTO.id).addClass("hidden");
         this.checkAvailableCategoriesBtns();
       })
   };

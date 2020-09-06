@@ -1,0 +1,4 @@
+<h1 class="title">{{dialogTitle}}</h1>
+
+<app-list-form *ngIf="list" [list]="list" (formSubmit)="editList($event)"></app-list-form>
+<app-list-form *ngIf="list==null" (formSubmit)="createNewList($event)"></app-list-form>

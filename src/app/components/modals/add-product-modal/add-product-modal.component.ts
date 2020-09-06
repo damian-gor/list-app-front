@@ -21,8 +21,8 @@ export class AddProductModalComponent implements OnInit {
     this.product = this.data.product;
   }
 
-  updateProduct(updatedProduc: Product) {
-    this.dialogRef.close(updatedProduc);
+  updateProduct(updatedProduct: Product) {
+    this.dialogRef.close(updatedProduct);
   }
 
   addProduct(newProduct: Product) {

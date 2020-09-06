@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../../models/product';
-
+import * as global from 'src/global'
 
 @Injectable()
 export class ProductService {
@@ -10,7 +10,7 @@ export class ProductService {
   private productUrl: string;
 
   constructor(private http: HttpClient) { 
-    this.productUrl = 'http://localhost:8080/products';
+    this.productUrl = global.BACKEND_URL + '/products';
   }
 
   public getAllProducts():Observable<Product[]> {

@@ -10,6 +10,8 @@
         Wyświetl produkty wszystkich kategorii</button>
       <button type="button" class="btn btn-light" (click)="toggleRealisedProductItems()" id="toggleRealisedBtn">
         Ukryj zrealizowane elementy</button>
+      <button type="button" class="btn btn-light" (click)="toggleAuthor()" id="toggleAuthorBtn">
+        Ukryj autora</button>
     </div>
     <br>
     <div id="category-buttons" class="border">
@@ -28,7 +30,8 @@
       <button (click)="setAsBought($event, product)" class="list-item-button bought-btn"></button>
       <span>
         {{ product.quantity }} {{ product.unit }}: <b> {{ product.name }} </b> <i>
-          ({{ productsCategoryMap.get(product.category) }})</i> <span class='productItemAuthor'></span>
+          ({{ productsCategoryMap.get(product.category) }})</i> 
+          <span *ngIf="product.author!=null" class='productItemAuthor'> {{ product.author.userName }} </span>
       </span>
       <button (click)="removeElement($event, product)" class="list-item-button delete-btn"></button>
       <button (click)="editElement($event, product)" class="list-item-button edit-btn"></button>
