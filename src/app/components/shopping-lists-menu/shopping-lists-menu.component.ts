@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AddListModalComponent } from '../modals/add-list-modal/add-list-modal.component'
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../modals/confirm-dialog/confirm-dialog.component'
+import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-shopping-lists-menu',
@@ -20,7 +21,8 @@ export class ShoppingListsMenuComponent implements OnInit {
   lists: ShoppingListDTO[] = new Array<ShoppingListDTO>();
 
   constructor(private shoppingListService: ShoppingListService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -32,6 +34,9 @@ export class ShoppingListsMenuComponent implements OnInit {
     this.shoppingListService.getAllShoppingLists().subscribe(result => {
       if (result.length > 0) {
         this.lists = result;
+        console.log(this.lists);
+        if (this.lists[0].buyer.userName == this.tokenStorageService.getUser().username)
+          $('#deleteListBtn')[0].classList.remove("hidden");
       }
     });
   }
@@ -84,7 +89,6 @@ export class ShoppingListsMenuComponent implements OnInit {
   }
 
   deleteList() {
-
     var selectedList;
     this.lists.forEach(l => {
       if (l.id == $('#listId').children("option:selected").val()) selectedList = l;
@@ -98,11 +102,21 @@ export class ShoppingListsMenuComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) this.shoppingListService.deleteShoppingList(selectedList.id).subscribe( data =>
-        {
-          this.lists.splice(this.lists.indexOf(selectedList), 1);
-        });
+      if (result) this.shoppingListService.deleteShoppingList(selectedList.id).subscribe(data => {
+        this.lists.splice(this.lists.indexOf(selectedList), 1);
+      });
     });
   }
 
+  checkDeleteBtnAvailability() {
+    this.lists.forEach(list => {
+      if (list.id == $('#listId').children("option:selected").val()) {
+        if (list.buyer.userName == this.tokenStorageService.getUser().username)
+          $('#deleteListBtn')[0].classList.remove("hidden");
+        else
+          $('#deleteListBtn')[0].classList.add("hidden");
+      }
+    });
+  }
 }
+

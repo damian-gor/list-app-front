@@ -21,4 +21,8 @@ export class ProductService {
     return this.http.post<Product>(this.productUrl, product);
   }
 
+  public filterProductsByName(name:string):Observable<Product[]> {
+    return this.http.get<Product[]>(this.productUrl + "/filterByName?name=" + name);
+  }
+
 }

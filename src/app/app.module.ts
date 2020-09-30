@@ -8,7 +8,7 @@ import { ProductFormComponent } from './components/products-list/product-form/pr
 import { HttpClientModule } from '@angular/common/http';
 import { ProductService } from './services/product/product.service';
 import { SharedService } from './services/sharedService/shared.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { ShoppingListService } from './services/shoppingList/shopping-list.service';
 import { ProductItemService } from './services/shoppingList/productItem/product-item.service';
@@ -29,6 +29,13 @@ import { ShoppingListsMenuComponent } from './components/shopping-lists-menu/sho
 import { AddListModalComponent } from './components/modals/add-list-modal/add-list-modal.component';
 import { ListFormComponent } from './components/shopping-lists-menu/list-form/list-form.component';
 import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confirm-dialog.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+// import {DemoMaterialModule} from './material-module';
+import { MatInputModule } from '@angular/material/input';
+
+
 
 @NgModule({
   declarations: [
@@ -56,7 +63,11 @@ import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confi
     FormsModule,
     DataTablesModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatInputModule
   ],
   providers: [ProductService, SharedService, ShoppingListService, ProductItemService, authInterceptorProviders],
   entryComponents: [EditItemModalComponent],

@@ -2,8 +2,20 @@
   <form (ngSubmit)="onSubmit(productItemForm)" #productItemForm="ngForm">
     <div class="form-group">
       <label for="name">Nazwa</label>
-      <input type="text" [(ngModel)]="productItem.name" class="form-control" id="name" name="name"
-        placeholder="Wprowadź nazwę produktu" required #name="ngModel">
+      <mat-form-field id="mat-form">
+        <input type="text"  class="form-control" id="name" name="name"
+          required [matAutocomplete]="auto" matInput
+          [(ngModel)]="productItem.name"
+          [formControl]="searchedProductsControl" >
+        <mat-autocomplete #auto="matAutocomplete" >
+          <mat-option *ngIf="isLoading" class="is-loading" >Szukam...</mat-option>
+          <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let prod of filteredProducts" [value]="prod.name" (onSelectionChange)="onDbProductSelected(prod)">
+              <span><b>{{prod.name}}</b> ({{prod.category}})</span>
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+      </mat-form-field>
     </div>
     <div class="form-group">
       <label for="quantity">Ilość</label>
@@ -27,15 +39,15 @@
       </select>
     </div>
     <div class="form-group" style="display: flex;" *ngIf='productItem.sourceProductId'>
-        <input type="checkbox" [(ngModel)]="productItem.ifAddToDb" class="form-control" id="ifAddToDb" name="ifAddToDb"
-          #ifAddToDb="ngModel" style="margin-right: 5px; display: flex;">
-        <label for="ifAddToDb" class='checkbox-label'>Zaktualizuj w bazie produktów</label>
-      </div>
-      <div class="form-group" style="display: flex;" *ngIf='!productItem.sourceProductId'>
-        <input type="checkbox" [(ngModel)]="productItem.ifAddToDb" class="form-control" id="ifAddToDb" name="ifAddToDb"
-          #ifAddToDb="ngModel" style="margin-right: 5px; display: flex;">
-        <label for="ifAddToDb" class='checkbox-label'>Dodaj do bazy produktów</label>
-      </div>
+      <input type="checkbox" [(ngModel)]="productItem.ifAddToDb" class="form-control" id="ifAddToDb" name="ifAddToDb"
+        #ifAddToDb="ngModel" style="margin-right: 5px; display: flex;">
+      <label for="ifAddToDb" class='checkbox-label'>Zaktualizuj w bazie produktów</label>
+    </div>
+    <div class="form-group" style="display: flex;" *ngIf='!productItem.sourceProductId'>
+      <input type="checkbox" [(ngModel)]="productItem.ifAddToDb" class="form-control" id="ifAddToDb" name="ifAddToDb"
+        #ifAddToDb="ngModel" style="margin-right: 5px; display: flex;">
+      <label for="ifAddToDb" class='checkbox-label'>Dodaj do bazy produktów</label>
+    </div>
     <button type="submit"
       [disabled]="!productItemForm.form.valid || productItemForm.form.value.quantity<0 || productItem.category == null"
       class="btn btn-info">Dodaj</button>

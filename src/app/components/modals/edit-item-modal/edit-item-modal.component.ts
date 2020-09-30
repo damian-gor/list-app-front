@@ -19,7 +19,10 @@ export class EditItemModalComponent implements OnInit {
   ngOnInit(): void {
     this.dialogTitle = this.data.dialogTitle;
     this.productItem = this.data.productItem;
+    $('.mat-form-field').removeClass('mat-form-field');
+    $('.mat-form-field-appearance-legacy').removeClass('mat-form-field-appearance-legacy');
   }
+  
 
   updateProductItem(updatedProducItem: ProductItem) {
     this.dialogRef.close(updatedProducItem);

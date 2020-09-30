@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "list-app-frontend": {
+      "hosting": {
+        "list-app-frontend": [
+          "list-app-frontend"
+        ]
+      }
+    }
+  }
+}
