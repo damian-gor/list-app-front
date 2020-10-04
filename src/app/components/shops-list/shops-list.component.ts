@@ -1,0 +1,92 @@
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Shop } from '../../models/shop';
+import { ConfirmDialogComponent, ConfirmDialogModel } from '../modals/confirm-dialog/confirm-dialog.component'
+import { ShopService } from '../../services/shop/shop.service';
+import { AddShopModalComponent } from '../modals/add-shop-modal/add-shop-modal.component';
+
+@Component({
+  selector: 'app-shops-list',
+  templateUrl: './shops-list.component.html',
+  styleUrls: ['./shops-list.component.scss']
+})
+export class ShopsListComponent implements OnInit {
+
+  shops: Shop[] = [];
+
+  constructor(private shopService: ShopService,
+    private dialog: MatDialog) { }
+
+  ngOnInit(): void {
+    this.shopService.getAllShops().subscribe(result => {
+      this.shops = result;
+    });
+  }
+
+  getAllShops() {
+    this.shopService.getAllShops().subscribe(result => {
+      if (result.length > 0) {
+        this.shops = result;
+      }
+    });
+  }
+
+  addShop() {
+    const dialogRef = this.dialog.open(AddShopModalComponent, {
+      width: '580px',
+      data: {
+        dialogTitle: "Dodaj sklep do bazy"
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(newShop => {
+      if (newShop) {
+        this.shops.push(newShop);
+      }
+    });
+  }
+
+  editShop(oldShop: Shop) {
+    var shopTemplate = new Shop();
+    shopTemplate.id = oldShop.id;
+    shopTemplate.name = oldShop.name;
+    shopTemplate.promotionUrl = oldShop.promotionUrl;
+
+    const dialogRef = this.dialog.open(AddShopModalComponent, {
+      width: '580px',
+      data: {
+        shop: shopTemplate,
+        dialogTitle: "Edytuj element: " + shopTemplate.name
+      }
+    })
+
+    dialogRef.afterClosed().subscribe(updatedShop => {
+      if (updatedShop) {
+        oldShop.name = updatedShop.name;
+        oldShop.promotionUrl = updatedShop.promotionUrl;
+      }
+    });
+  }
+
+  removeShop(shop: Shop) {
+
+    const dialogData = new ConfirmDialogModel("Usuń sklep o nazwie: " + shop.name, "Czy na pewno chcesz usunąć sklep?");
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "500px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.shopService.removeShop(shop.id)
+          .subscribe(() => {
+            this.shops.splice(this.shops.indexOf(shop), 1);
+          });
+      }});
+  }
+
+  gazetkaRedirection(shop: Shop) {
+    window.open(shop.promotionUrl);
+  }
+}

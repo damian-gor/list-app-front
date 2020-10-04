@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, EventEmitter } from '@angular/core';
-import { ShoppingList } from '../../models/shopping-list'
 import { SharedService } from 'src/app/services/sharedService/shared.service';
 import { ShoppingListService } from 'src/app/services/shoppingList/shopping-list.service';
 import { ProductItem } from 'src/app/models/product-item';
@@ -166,7 +165,7 @@ export class ShoppingListComponent implements OnInit {
     this.updateProductItemStatusInShoppingList(productItemDTO);
   };
 
-  removeElement(event, productItemDTO: ProductItemDTO) {
+  removeElement(productItemDTO: ProductItemDTO) {
     this.shoppingListService.removeProductItemFromList(productItemDTO, this.selectedListId)
       .subscribe(response => {
         this.productsList.splice(this.productsList.indexOf(productItemDTO), 1);
@@ -175,13 +174,14 @@ export class ShoppingListComponent implements OnInit {
       );
   };
 
-  editElement(event, oldProductItem: ProductItemDTO) {
+  editElement(oldProductItem: ProductItemDTO) {
 
     var productItemTemplate = new ProductItem();
     productItemTemplate.category = oldProductItem.category;
     productItemTemplate.name = oldProductItem.name;
     productItemTemplate.quantity = oldProductItem.quantity;
     productItemTemplate.unit = oldProductItem.unit;
+    productItemTemplate.id = oldProductItem.id;
 
     const dialogRef = this.dialog.open(EditItemModalComponent, {
       width: '580px',
@@ -197,6 +197,7 @@ export class ShoppingListComponent implements OnInit {
         oldProductItem.quantity = updatedProductItemDTO.quantity;
         oldProductItem.category = updatedProductItemDTO.category;
         oldProductItem.unit = updatedProductItemDTO.unit;
+
         this.checkAvailableCategoriesBtns();
       }
     });

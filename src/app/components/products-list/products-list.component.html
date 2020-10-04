@@ -1,24 +1,26 @@
-<!-- <div class="card my-5"> -->
-    <div class="card-body">
-      <h1>LISTA PRODUKTÓW</h1>
-      <table class="table table-bordered table-striped" datatable id="product-db-table" *ngIf="products">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nazwa</th>
-            <th scope="col">Kategoria</th>
-            <th scope="col">Jedn.</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let product of products">
-            <td>{{ product.id }}</td>
-            <td>{{ product.name }}</td>
-            <td>{{ productsCategoryMap.get(product.category) }}</td>
-            <td>{{ productsUnitMap.get(product.unit) }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <button (click)="addProduct()" class="btn btn-primary">Dodaj nowy produkt</button>
-    </div>
-  <!-- </div> -->
+<div class="card-body">
+  <h1>LISTA PRODUKTÓW</h1>
+  <table class="table table-bordered table-striped" datatable id="product-db-table" *ngIf="products">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nazwa</th>
+        <th scope="col">Kategoria</th>
+        <th scope="col">Jedn.</th>
+        <th scope="col" id='edit-col' data-orderable="false"></th>
+        <th scope="col" id='delete-col' data-orderable="false"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ productsCategoryMap.get(product.category) }}</td>
+        <td>{{ productsUnitMap.get(product.unit) }}</td>
+        <td><button (click)="editProduct(product)" class="list-item-button edit-btn"></button></td>
+        <td><button (click)="removeProduct(product)" class="list-item-button delete-btn"></button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button (click)="addProduct()" class="btn btn-primary">Dodaj nowy produkt</button>
+</div>

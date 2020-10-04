@@ -7,4 +7,5 @@ export class ShoppingListDTO {
     productsList: ProductItemDTO[];
     participantsList: UserDTO[];
     shopName: string;
+    shopPromotionUrl: string;
 }

@@ -33,8 +33,8 @@
           ({{ productsCategoryMap.get(product.category) }})</i> 
           <span *ngIf="product.author!=null" class='productItemAuthor'> {{ product.author.userName }} </span>
       </span>
-      <button (click)="removeElement($event, product)" class="list-item-button delete-btn"></button>
-      <button (click)="editElement($event, product)" class="list-item-button edit-btn"></button>
+      <button (click)="removeElement(product)" class="list-item-button delete-btn"></button>
+      <button (click)="editElement(product)" class="list-item-button edit-btn"></button>
       <button (click)="setAsNotAvailable($event, product)" class="list-item-button notAvailable-btn"></button>
     </li>
   </ul>

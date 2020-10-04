@@ -8,7 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddProductModalComponent } from '../modals/add-product-modal/add-product-modal.component';
 
 
-
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
@@ -20,7 +19,6 @@ export class ProductsListComponent implements OnInit {
   productsCategoryMap: Map<String, String>;
   productsUnitMap: Map<String, String>;
   statuses: string[];
-
 
   constructor(private productService: ProductService,
     private sharedService: SharedService,
@@ -35,7 +33,7 @@ export class ProductsListComponent implements OnInit {
     });
     this.statuses = Object.keys(ProductItemStatus);
   }
-
+  
   addProduct() {
     const dialogRef = this.dialog.open(AddProductModalComponent, {
       width: '580px',
@@ -51,31 +49,36 @@ export class ProductsListComponent implements OnInit {
     });
   }
 
-  // editElement(event, oldProductItem: ProductItem) {
+  removeProduct(product: Product) {
+    this.productService.removeProduct(product.id)
+      .subscribe((response) => {
+        this.products.splice(this.products.indexOf(product), 1);
+      }
+      );
+  };
 
-  //   var productItemTemplate = new ProductItem();
-  //   productItemTemplate.category = oldProductItem.category;
-  //   productItemTemplate.name = oldProductItem.name;
-  //   productItemTemplate.quantity = oldProductItem.quantity;
-  //   productItemTemplate.unit = oldProductItem.unit;
+  editProduct(oldProduct: Product) {
+    var productTemplate = new Product();
+    productTemplate.category = oldProduct.category;
+    productTemplate.name = oldProduct.name;
+    productTemplate.unit = oldProduct.unit;
+    productTemplate.id = oldProduct.id;
 
-  //   const dialogRef = this.dialog.open(EditItemModalComponent, {
-  //     width: '580px',
-  //     data: {
-  //       productItem: productItemTemplate,
-  //       dialogTitle: "Edytuj element: " + productItemTemplate.name
-  //     }
-  //   })
+    const dialogRef = this.dialog.open(AddProductModalComponent, {
+      width: '580px',
+      data: {
+        product: productTemplate,
+        dialogTitle: "Edytuj element: " + productTemplate.name
+      }
+    })
 
-  //   dialogRef.afterClosed().subscribe(updatedProductItem => {
-  //     if (updatedProductItem) {
-  //       oldProductItem.name = updatedProductItem.name;
-  //       oldProductItem.quantity = updatedProductItem.quantity;
-  //       oldProductItem.category = updatedProductItem.category;
-  //       oldProductItem.unit = updatedProductItem.unit;
-  //       this.checkAvailableCategoriesBtns();
-  //     }
-  //   });
-  // }
+    dialogRef.afterClosed().subscribe(updatedProduct => {
+      if (updatedProduct) {
+        oldProduct.name = updatedProduct.name;
+        oldProduct.category = updatedProduct.category;
+        oldProduct.unit = updatedProduct.unit;
+      }
+    });
+  }
 
 }

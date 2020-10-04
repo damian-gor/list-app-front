@@ -1,15 +1,33 @@
-<div class="card my-5">
-  <div class="card-body">
-    <form #listForm="ngForm">
-      <div class="form-group">
-        <label for="shopName">Nazwa sklepu</label>
-        <input type="text" [(ngModel)]="list.shopName" class="form-control" id="shopName" name="shopName"
-          placeholder="Wprowadź nazwę sklepu" required #shopName="ngModel">
-      </div>
-        <button type="submit" [disabled]="!listForm.form.valid" class="btn btn-info" (click)="onSubmit(listForm)">
-          <span *ngIf="list.id == null">Dodaj</span>
-          <span *ngIf="list.id != null">Zapisz</span>
-        </button>
-      </form>
-  </div>
+<div class="card-body border">
+  <form (ngSubmit)="onSubmit(listForm)" #listForm="ngForm">
+    <div class="form-group">
+      <label for="shopName">Nazwa sklepu</label>
+      <mat-form-field id="mat-form">
+        <input type="text" class="form-control" id="shopName" name="shopName" 
+        required 
+        [matAutocomplete]="auto" 
+        matInput
+        [(ngModel)]="list.shopName" 
+        [formControl]="searchedShopsControl">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngIf="isLoading" class="is-loading">Szukam...</mat-option>
+          <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let shopp of filteredShops" [value]="shopp.name"
+              (onSelectionChange)="onDbShopSelected(shopp)">
+              <span>{{shopp.name}}</span>
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <label for="promotionUrl">Link do gazetki</label>
+      <input type="text" [(ngModel)]="list.shopPromotionUrl" class="form-control" id="promotionUrl" name="promotionUrl"
+        placeholder="Wprowadź link" #name="ngModel">
+    </div>
+    <button type="submit" [disabled]="!listForm.form.valid" class="btn btn-info">
+      <span *ngIf="list.id == null">Dodaj</span>
+      <span *ngIf="list.id != null">Zapisz</span>
+    </button>
+  </form>
 </div>

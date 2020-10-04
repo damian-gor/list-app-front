@@ -1,0 +1,4 @@
+<h1 class="title">{{dialogTitle}}</h1>
+
+<app-shop-form *ngIf="shop" [shop]="shop" (formSubmit)="updateShop($event)"></app-shop-form>
+<app-shop-form *ngIf="shop==null" (formSubmit)="addShop($event)"></app-shop-form>

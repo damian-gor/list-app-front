@@ -32,8 +32,11 @@ import { ConfirmDialogComponent } from './components/modals/confirm-dialog/confi
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-// import {DemoMaterialModule} from './material-module';
 import { MatInputModule } from '@angular/material/input';
+import { ShopsListComponent } from './components/shops-list/shops-list.component';
+import { AddShopModalComponent } from './components/modals/add-shop-modal/add-shop-modal.component';
+import { ShopFormComponent } from './components/shops-list/shop-form/shop-form.component';
+import { ShopService } from './services/shop/shop.service';
 
 
 
@@ -54,7 +57,10 @@ import { MatInputModule } from '@angular/material/input';
     ShoppingListsMenuComponent,
     AddListModalComponent,
     ListFormComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ShopsListComponent,
+    AddShopModalComponent,
+    ShopFormComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +75,7 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatInputModule
   ],
-  providers: [ProductService, SharedService, ShoppingListService, ProductItemService, authInterceptorProviders],
+  providers: [ProductService, SharedService, ShoppingListService, ProductItemService, ShopService, authInterceptorProviders],
   entryComponents: [EditItemModalComponent],
   bootstrap: [AppComponent]
 })

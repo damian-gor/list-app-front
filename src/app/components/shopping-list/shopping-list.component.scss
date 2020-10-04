@@ -15,17 +15,6 @@
   text-decoration: line-through;
 }
 
-.list-item-button {
-  background-color: transparent;
-  border: none;
-  color: white;
-  padding: 20px;
-  display: inline-block;
-  margin: 4px 2px;
-  border-radius: 50%;
-  background-repeat: no-repeat;
-}
-
 .bought-btn {
   background-image: url('../../../assets/icons/checked.svg');
 }
@@ -35,18 +24,6 @@
   background-position: center;
   float: right;
   padding-right: 10vh;
-}
-
-.delete-btn {
-  background-image: url('../../../assets/icons/trash.svg');
-  background-position: center;
-  float: right
-}
-
-.edit-btn {
-  background-image: url('../../../assets/icons/edit.svg');
-  background-position: center;
-  float: right
 }
 
 .productItemAuthor{

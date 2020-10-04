@@ -7,9 +7,11 @@ import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { BoardAdminComponent } from './components/board-admin/board-admin.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ShopsListComponent } from './components/shops-list/shops-list.component';
 
 const routes: Routes = [
   { path: 'products', component: ProductsListComponent },
+  { path: 'shops', component: ShopsListComponent },
   { path: 'shoppingListsMenu', component: ShoppingListsMenuComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },

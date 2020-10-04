@@ -8,8 +8,8 @@
       </div>
       <div class="form-group">
         <label for="categry">Kategoria</label>
-        <select [(ngModel)]="product.category" class="form-control" id="category" name="category"
-          #category="ngModel" required>
+        <select [(ngModel)]="product.category" class="form-control" id="category" name="category" #category="ngModel"
+          required>
           <option value=null style="font-style: italic;">Wybierz kategorię</option>
           <option *ngFor="let key of productCategoriesKeys" [value]="key">
             {{ productsCategoryMap.get(key) }}
@@ -17,14 +17,17 @@
       </div>
       <div class="form-group">
         <label for="unit">Jednostka</label>
-        <select [(ngModel)]="product.unit" class="form-control" id="unit" name="unit"
-          #unit="ngModel" required>
+        <select [(ngModel)]="product.unit" class="form-control" id="unit" name="unit" #unit="ngModel" required>
           <option value=null style="font-style: italic;">Wybierz jednostkę</option>
           <option *ngFor="let key of productUnitsKeys" [value]="key">
             {{ productsUnitMap.get(key) }}
         </select>
       </div>
-      <button type="submit" [disabled]="!productForm.form.valid" class="btn btn-info">Dodaj</button>
+      <button type="submit" [disabled]="!productForm.form.valid" class="btn btn-info">
+        <span *ngIf="!product">Dodaj</span>
+        <span *ngIf="product">Zapisz</span>
+      </button>
     </form>
   </div>
 </div>
+

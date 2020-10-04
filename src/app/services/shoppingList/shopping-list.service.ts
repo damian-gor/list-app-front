@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ShoppingList } from 'src/app/models/shopping-list';
 import * as global from 'src/global'
 import { ShoppingListDTO } from 'src/app/models/shopping-list-dto';
 import { ProductItemDTO } from 'src/app/models/product-item-dto';
@@ -51,11 +50,6 @@ export class ShoppingListService {
     return this.http.put<ShoppingListDTO>(url, newProductItemDTO);
   }
   
-  public updateProductItemInShoppingList(updatedProductItemDTO: ProductItemDTO, shoppingListId: number) {
-    var url = this.shoppingListUrl + "/updateProductItemInList" + "?shoppingListId=" + shoppingListId;
-    return this.http.patch<ShoppingListDTO>(url, updatedProductItemDTO);
-  };
-
   public removeProductItemFromList(removedProductItemDTO: ProductItemDTO, shoppingListId: number) {
     var url = this.shoppingListUrl + "/removeProductItemFromList" + "?shoppingListId=" + shoppingListId;
     return this.http.patch(url, removedProductItemDTO);

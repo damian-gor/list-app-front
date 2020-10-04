@@ -23,11 +23,11 @@ export class ProductFormComponent implements OnInit {
   @Output() formSubmit: EventEmitter<Product> = new EventEmitter<Product>();
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
+    // private route: ActivatedRoute,
+    // private router: Router,
     private productService: ProductService,
     private sharedService: SharedService) {
-      this.resetProduct();
+    this.resetProduct();
   }
 
   ngOnInit() {
@@ -40,12 +40,21 @@ export class ProductFormComponent implements OnInit {
     this.product.category = form.value.category;
     this.product.unit = form.value.unit;
 
-    this.productService.addProduct(this.product).subscribe(result => {
-      this.formSubmit.emit(result);
-      form.reset();
-      this.resetProduct();
+    if (this.product.id) {
+      this.productService.updateProduct(this.product).subscribe(result => {
+        this.formSubmit.emit(result);
+        form.reset();
+        this.resetProduct();
+      }
+      );
+    } else {
+      this.productService.addProduct(this.product).subscribe(result => {
+        this.formSubmit.emit(result);
+        form.reset();
+        this.resetProduct();
+      }
+      );
     }
-    );
   }
 
   resetProduct() {

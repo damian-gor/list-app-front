@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../../models/product';
 import * as global from 'src/global'
@@ -21,8 +21,17 @@ export class ProductService {
     return this.http.post<Product>(this.productUrl, product);
   }
 
+  public updateProduct(product:Product) {
+    return this.http.put<Product>(this.productUrl, product);
+  }
+
   public filterProductsByName(name:string):Observable<Product[]> {
     return this.http.get<Product[]>(this.productUrl + "/filterByName?name=" + name);
   }
+
+  public removeProduct(productId: number) {
+    var url = this.productUrl + "/" + productId;
+    return this.http.delete(url);
+  };
 
 }
