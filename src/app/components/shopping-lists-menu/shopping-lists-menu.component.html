@@ -1,18 +1,20 @@
+<div class="alert-danger hidden" id="unloggedCommunicate-lists" style="text-align: center; font-style: italic;">
+  Zaloguj się by uzyskać dostęp do list zakupów.
+</div>
 <div class="card my-1">
   <div class="card-body">
-
     <div class="form-group">
       <label for="listId">Wybierz listę:</label>
       <select type="number" class="form-control" id="listId" required (change)="checkDeleteBtnAvailability()">
+        <option class="hidden" disabled value=0 id="noListsAvailableOption"> Brak list do wyświetlenia </option>
         <option *ngFor="let list of lists" [value]="list.id">Lista nr {{ list.id }}, sklep: {{ list.shopName }}</option>
       </select>
       <button type="submit" (click)="loadList()" class="btn btn-info" id='load-list-btn'>Wybierz</button>
-      <button type="submit" (click)="editList()" class="btn btn-info">Edytuj</button>
+      <button type="submit" (click)="editList()" class="btn btn-info hidden" id='edit-list-btn'>Edytuj</button>
       <button type="submit" (click)="createNewList()" class="btn btn-info">Dodaj nową listę</button>
       <button type="submit" (click)="gazetkaRedirection()" class="btn btn-link">Zobacz gazetkę</button>
       <button class="btn btn-danger hidden" id="deleteListBtn" (click)="deleteList()">Usuń listę</button>
     </div>
-
   </div>
   <div id='shopping-list-container' hidden>
     <app-shopping-list [selectedListId]="selectedListId" [uploadSuccess] = "uploadSuccess"></app-shopping-list>

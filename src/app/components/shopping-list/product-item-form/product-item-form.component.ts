@@ -88,8 +88,6 @@ export class ProductItemFormComponent implements OnInit {
     this.productItem.category = form.value.category;
     this.productItem.unit = form.value.unit;
 
-    console.log(form.value);
-
     if (form.value.ifAddToDb === true) {
       var product = new Product();
       product.name = this.productItem.name;

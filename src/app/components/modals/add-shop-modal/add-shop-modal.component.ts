@@ -18,7 +18,6 @@ export class AddShopModalComponent implements OnInit {
   ngOnInit(): void {
     this.dialogTitle = this.data.dialogTitle;
     this.shop = this.data.shop;
-    console.log(this.shop);
   }
 
   updateShop(updatedShop: Shop) {

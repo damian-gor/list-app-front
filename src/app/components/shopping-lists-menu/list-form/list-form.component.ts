@@ -5,6 +5,9 @@ import { FormControl, NgForm } from '@angular/forms';
 import { Shop } from 'src/app/models/shop';
 import { debounceTime, filter, finalize, switchMap, tap } from 'rxjs/operators';
 import { ShopService } from 'src/app/services/shop/shop.service';
+import { UserInfoService } from 'src/app/services/user-info/user-info.service';
+import { UserDTO } from 'src/app/models/user-dto';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-list-form',
@@ -20,12 +23,32 @@ export class ListFormComponent implements OnInit {
   isLoading = false;
   filteredShops: any;
   errorMsg: string;
-  value: string = "";
+  users: UserDTO[];
+  selectedParticipants: UserDTO[];
+  selectedItems = [];
+  dropdownSettings: IDropdownSettings = {};
 
   constructor(private shoppingListService: ShoppingListService,
-    private shopService: ShopService) { this.resetList() }
+    private shopService: ShopService,
+    private userInfoService: UserInfoService) {
+    this.resetList();
+    userInfoService.getOtherUsers().subscribe(data => {
+      this.users = data;
+      this.selectedItems = this.list.participantsList;
+      this.dropdownSettings = {
+        singleSelection: false,
+        idField: 'userId',
+        textField: 'userName',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 5,
+        allowSearchFilter: false
+      };
+    });
+  }
 
   ngOnInit(): void {
+    this.userInfoService.getOtherUsers().subscribe(data => this.users = data);
     $('.mat-form-field').removeClass('mat-form-field');
     $('.mat-form-field-appearance-legacy').removeClass('mat-form-field-appearance-legacy');
     $('.mat-form-field-wrapper').removeClass('mat-form-field-wrapper');
@@ -65,6 +88,7 @@ export class ListFormComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    this.list.participantsList = form.value.selectedParticipants;
     if (this.list.id == null)
       this.shoppingListService.addShoppingList(this.list).subscribe(result => {
         this.formSubmit.emit(result);
@@ -82,6 +106,7 @@ export class ListFormComponent implements OnInit {
 
   resetList() {
     this.list = new ShoppingListDTO();
+    this.list.participantsList = [];
   }
 
   onDbShopSelected(selectedShopFromDB: Shop) {

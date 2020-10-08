@@ -33,7 +33,8 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
-        this.reloadPage();
+        // this.reloadPage();
+        this.goToShoppingListsView();
       },
       err => {
         this.errorMessage = err.error.message;
@@ -44,6 +45,10 @@ export class LoginComponent implements OnInit {
 
   reloadPage(): void {
     window.location.reload();
+  }
+
+  goToShoppingListsView(): void {
+    window.location.replace(window.location.origin + "/shoppingListsMenu");
   }
 
 }

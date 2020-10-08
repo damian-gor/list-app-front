@@ -28,13 +28,21 @@ export class ShoppingListsMenuComponent implements OnInit {
     this.getAllShoppingLists();
   }
 
-
   getAllShoppingLists() {
-    this.shoppingListService.getAllShoppingLists().subscribe(result => {
+    if (this.tokenStorageService.getUser() == null) {
+      $('#unloggedCommunicate-lists')[0].classList.remove("hidden");
+    }
+    else this.shoppingListService.getAllShoppingLists().subscribe(result => {
       if (result.length > 0) {
         this.lists = result;
-        if (this.lists[0].buyer.userName == this.tokenStorageService.getUser().username)
+        if (this.lists[0].buyer.userName == this.tokenStorageService.getUser().username) {
           $('#deleteListBtn')[0].classList.remove("hidden");
+          $('#edit-list-btn')[0].classList.remove("hidden");
+        }
+      } 
+      else {
+        $('#noListsAvailableOption')[0].classList.remove("hidden");
+        $('#listId').val(0);
       }
     });
   }
@@ -46,7 +54,7 @@ export class ShoppingListsMenuComponent implements OnInit {
   }
 
   editList() {
-    var oldList;
+    var oldList: ShoppingListDTO;
     this.lists.forEach(l => {
       if (l.id == $('#listId').children("option:selected").val()) oldList = l;
     })
@@ -54,6 +62,8 @@ export class ShoppingListsMenuComponent implements OnInit {
     var listTemplate = new ShoppingListDTO();
     listTemplate.shopName = oldList.shopName;
     listTemplate.id = oldList.id;
+    listTemplate.participantsList = oldList.participantsList;
+    listTemplate.shopPromotionUrl = oldList.shopPromotionUrl;
 
     const dialogRef = this.dialog.open(AddListModalComponent, {
       width: '580px',
@@ -66,6 +76,7 @@ export class ShoppingListsMenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe(updatedList => {
       if (updatedList) {
         oldList.shopName = updatedList.shopName;
+        oldList.participantsList = updatedList.participantsList;
       }
     });
   }
@@ -81,10 +92,15 @@ export class ShoppingListsMenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe(newList => {
       if (newList) {
         this.lists.push(newList);
-        $(function() {
+        if (this.lists.length==1) $('#noListsAvailableOption')[0].classList.add("hidden");
+        $(function () {
           $('#listId').val(newList.id);
           $('#load-list-btn').trigger('click');
         });
+        if (newList.buyer.userName == this.tokenStorageService.getUser().username) {
+          $('#deleteListBtn')[0].classList.remove("hidden");
+          $('#edit-list-btn')[0].classList.remove("hidden");
+        }
       }
     });
   }
@@ -105,6 +121,11 @@ export class ShoppingListsMenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) this.shoppingListService.deleteShoppingList(selectedList.id).subscribe(() => {
         this.lists.splice(this.lists.indexOf(selectedList), 1);
+        if (this.lists.length == 0) 
+        {
+          $('#listId').val(0);
+          $('#noListsAvailableOption')[0].classList.remove("hidden");
+        }
       });
     });
   }
@@ -112,16 +133,20 @@ export class ShoppingListsMenuComponent implements OnInit {
   checkDeleteBtnAvailability() {
     this.lists.forEach(list => {
       if (list.id == $('#listId').children("option:selected").val()) {
-        if (list.buyer.userName == this.tokenStorageService.getUser().username)
+        if (list.buyer.userName == this.tokenStorageService.getUser().username) {
           $('#deleteListBtn')[0].classList.remove("hidden");
-        else
+          $('#edit-list-btn')[0].classList.remove("hidden");
+        }
+        else {
           $('#deleteListBtn')[0].classList.add("hidden");
+          $('#edit-list-btn')[0].classList.add("hidden");
+        }
       }
     });
   }
 
   gazetkaRedirection() {
-    var selectedList:ShoppingListDTO;
+    var selectedList: ShoppingListDTO;
     this.lists.forEach(l => {
       if (l.id == $('#listId').children("option:selected").val()) selectedList = l;
     })

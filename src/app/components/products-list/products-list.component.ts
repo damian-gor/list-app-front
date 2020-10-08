@@ -6,6 +6,7 @@ import { SharedService } from 'src/app/services/sharedService/shared.service';
 import { ProductItemStatus } from 'src/app/models/enums/product-item-status.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProductModalComponent } from '../modals/add-product-modal/add-product-modal.component';
+import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
 
 
 @Component({
@@ -22,16 +23,21 @@ export class ProductsListComponent implements OnInit {
 
   constructor(private productService: ProductService,
     private sharedService: SharedService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
     this.productsCategoryMap = this.sharedService.productsCategoryMap;
     this.productsUnitMap = this.sharedService.productsUnitMap;
+    this.statuses = Object.keys(ProductItemStatus);
+    if (this.tokenStorageService.getUser() == null) {
+      $('#unloggedCommunicate-prod')[0].classList.remove("hidden");
+    }
+    else
     this.productService.getAllProducts().subscribe(data => {
       this.products = data;
     });
-    this.statuses = Object.keys(ProductItemStatus);
   }
   
   addProduct() {

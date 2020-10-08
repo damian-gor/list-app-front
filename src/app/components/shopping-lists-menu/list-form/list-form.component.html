@@ -1,14 +1,10 @@
 <div class="card-body border">
-  <form (ngSubmit)="onSubmit(listForm)" #listForm="ngForm">
+  <form (ngSubmit)="onSubmit(listForm)" #listForm="ngForm" id="ngForm">
     <div class="form-group">
       <label for="shopName">Nazwa sklepu</label>
       <mat-form-field id="mat-form">
-        <input type="text" class="form-control" id="shopName" name="shopName" 
-        required 
-        [matAutocomplete]="auto" 
-        matInput
-        [(ngModel)]="list.shopName" 
-        [formControl]="searchedShopsControl">
+        <input type="text" class="form-control" id="shopName" name="shopName" required [matAutocomplete]="auto" matInput
+          [(ngModel)]="list.shopName" [formControl]="searchedShopsControl">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngIf="isLoading" class="is-loading">Szukam...</mat-option>
           <ng-container *ngIf="!isLoading">
@@ -25,7 +21,15 @@
       <input type="text" [(ngModel)]="list.shopPromotionUrl" class="form-control" id="promotionUrl" name="promotionUrl"
         placeholder="Wprowadź link" #name="ngModel">
     </div>
-    <button type="submit" [disabled]="!listForm.form.valid" class="btn btn-info">
+
+    <div class="form-group">
+      <label for="selectedParticipants">Lista współuczestników</label>
+      <ng-multiselect-dropdown [placeholder]="'Wybierz współuczestników listy'" [data]="users"
+        [(ngModel)]="selectedItems" [settings]="dropdownSettings" name="selectedParticipants">
+      </ng-multiselect-dropdown>
+    </div>
+
+    <button type="submit" [disabled]="!listForm.form.valid || list.shopName == null || list.shopName == ''" class="btn btn-info">
       <span *ngIf="list.id == null">Dodaj</span>
       <span *ngIf="list.id != null">Zapisz</span>
     </button>

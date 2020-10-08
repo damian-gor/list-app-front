@@ -37,8 +37,7 @@ import { ShopsListComponent } from './components/shops-list/shops-list.component
 import { AddShopModalComponent } from './components/modals/add-shop-modal/add-shop-modal.component';
 import { ShopFormComponent } from './components/shops-list/shop-form/shop-form.component';
 import { ShopService } from './services/shop/shop.service';
-
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -73,7 +72,8 @@ import { ShopService } from './services/shop/shop.service';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     MatAutocompleteModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [ProductService, SharedService, ShoppingListService, ProductItemService, ShopService, authInterceptorProviders],
   entryComponents: [EditItemModalComponent],
