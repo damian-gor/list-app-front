@@ -9,7 +9,7 @@
     <a href='{{ item.href }}' routerLink='{{ item.routerLink }}' *ngIf=" item.alwaysShow || 
   (!item.alwaysShow && !isLoggedIn && !item.onlyForLogged) ||
   (!item.alwaysShow && isLoggedIn && item.onlyForLogged && !item.onlyForAdmin) ||
-  (!item.alwaysShow && isLoggedIn && item.onlyForLogged && item.onlyForAdmin)">
+  (!item.alwaysShow && isLoggedIn && item.onlyForLogged && item.onlyForAdmin && showAdminBoard)">
       <button mat-button>
         <mat-icon class="mr">{{item.icon}}</mat-icon>
         <span *ngIf="item.label != 'Profil'"> {{ item.label }} </span>
@@ -34,7 +34,7 @@
       <a href='{{ item.href }}' routerLink='{{ item.routerLink }}' *ngIf=" item.alwaysShow || 
         (!item.alwaysShow && !isLoggedIn && !item.onlyForLogged) ||
         (!item.alwaysShow && isLoggedIn && item.onlyForLogged && !item.onlyForAdmin) ||
-        (!item.alwaysShow && isLoggedIn && item.onlyForLogged && item.onlyForAdmin)">
+        (!item.alwaysShow && isLoggedIn && item.onlyForLogged && item.onlyForAdmin && showAdminBoard)">
         <button mat-menu-item>
           <mat-icon class="mr">{{item.icon}}</mat-icon>
           <span *ngIf="item.label != 'Profil'"> {{ item.label }} </span>
