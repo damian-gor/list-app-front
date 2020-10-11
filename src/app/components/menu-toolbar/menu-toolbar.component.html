@@ -1,0 +1,53 @@
+<mat-toolbar fxLayout="row" color="primary" routerLinkActive="active">
+  <a href='/home' routerLink='home'>
+    <span fxFlex> {{ title }} </span>
+  </a>
+
+  <!-- Horizontal menu for bigger devices -->
+  <span *ngFor="let item of menuItems" fxHide.sm fxHide.xs>
+    <!-- 1. dla każdego 2. dla niezalogowanego 3. dla zalogowanego uzytkownika 4. dla zalogowanego admina -->
+    <a href='{{ item.href }}' routerLink='{{ item.routerLink }}' *ngIf=" item.alwaysShow || 
+  (!item.alwaysShow && !isLoggedIn && !item.onlyForLogged) ||
+  (!item.alwaysShow && isLoggedIn && item.onlyForLogged && !item.onlyForAdmin) ||
+  (!item.alwaysShow && isLoggedIn && item.onlyForLogged && item.onlyForAdmin)">
+      <button mat-button>
+        <mat-icon class="mr">{{item.icon}}</mat-icon>
+        <span *ngIf="item.label != 'Profil'"> {{ item.label }} </span>
+        <span *ngIf="item.label == 'Profil'"> {{ username }} </span>
+      </button>
+    </a>
+  </span>
+  <a *ngIf="isLoggedIn" href (click)="logout()" fxHide.sm fxHide.xs>
+
+    <button mat-button>
+      <mat-icon class="mr">cancel</mat-icon>
+      Wyloguj
+    </button>
+  </a>
+
+  <!-- Vertical menu for smaller devices -->
+  <button mat-icon-button [matMenuTriggerFor]="dropMenu" fxHide fxShow.sm fxShow.xs>
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #dropMenu="matMenu">
+    <ng-container *ngFor="let item of menuItems">
+      <a href='{{ item.href }}' routerLink='{{ item.routerLink }}' *ngIf=" item.alwaysShow || 
+        (!item.alwaysShow && !isLoggedIn && !item.onlyForLogged) ||
+        (!item.alwaysShow && isLoggedIn && item.onlyForLogged && !item.onlyForAdmin) ||
+        (!item.alwaysShow && isLoggedIn && item.onlyForLogged && item.onlyForAdmin)">
+        <button mat-menu-item>
+          <mat-icon class="mr">{{item.icon}}</mat-icon>
+          <span *ngIf="item.label != 'Profil'"> {{ item.label }} </span>
+          <span *ngIf="item.label == 'Profil'"> {{ username }} </span>
+        </button>
+      </a>
+    </ng-container>
+    <a *ngIf="isLoggedIn" href (click)="logout()">
+      <button mat-menu-item>
+        <mat-icon class="mr">cancel</mat-icon>
+        Wyloguj
+      </button>
+    </a>
+  </mat-menu>
+
+</mat-toolbar>
