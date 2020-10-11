@@ -38,6 +38,13 @@ import { AddShopModalComponent } from './components/modals/add-shop-modal/add-sh
 import { ShopFormComponent } from './components/shops-list/shop-form/shop-form.component';
 import { ShopService } from './services/shop/shop.service';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MenuToolbarComponent } from './components/menu-toolbar/menu-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +66,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ConfirmDialogComponent,
     ShopsListComponent,
     AddShopModalComponent,
-    ShopFormComponent
+    ShopFormComponent,
+    MenuToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +81,13 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatInputModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    MatToolbarModule,
+    FlexLayoutModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule
   ],
   providers: [ProductService, SharedService, ShoppingListService, ProductItemService, ShopService, authInterceptorProviders],
   entryComponents: [EditItemModalComponent],
