@@ -45,6 +45,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MenuToolbarComponent } from './components/menu-toolbar/menu-toolbar.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { MenuToolbarComponent } from './components/menu-toolbar/menu-toolbar.com
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSlideToggleModule
   ],
   providers: [ProductService, SharedService, ShoppingListService, ProductItemService, ShopService, authInterceptorProviders],
   entryComponents: [EditItemModalComponent],

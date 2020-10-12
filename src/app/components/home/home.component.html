@@ -1,5 +1,10 @@
 <div class="container">
     <header class="jumbotron">
       <p>{{ content }}</p>
+      <p>Status serwera: 
+        <span id="connecting-status-waiting" style="font-style:italic;color:grey">łączę...</span>
+        <span id="connecting-status-success" style="font-style:italic;color:green" class='hidden'>połączono</span>
+        <span id="connecting-status-failed" style="font-style:italic;color:red" class='hidden'>błąd</span>
+      </p> 
     </header>
   </div>

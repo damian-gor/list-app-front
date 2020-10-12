@@ -16,9 +16,13 @@ export class HomeComponent implements OnInit {
     this.userService.getPublicContent().subscribe(
       data => {
         this.content = data;
+        $("#connecting-status-waiting").toggleClass("hidden");
+        $("#connecting-status-success").toggleClass("hidden");
       },
       err => {
         this.content = JSON.parse(err.error).message;
+        $("#connecting-status-waiting").toggleClass("hidden");
+        $("#connecting-status-failed").toggleClass("hidden");
       }
     );
   }

@@ -28,6 +28,7 @@ export class ShoppingListComponent implements OnInit {
   productCategoriesKeys = Object.keys(ProductCategory);
   selectedCategoriesList: String[] = new Array<String>();
   availavleCategories: String[] = new Array<String>();
+  isZakupyMode:boolean = false;
 
 
   constructor(private shoppingListService: ShoppingListService,
@@ -49,7 +50,6 @@ export class ShoppingListComponent implements OnInit {
         });
       });
     }
-
   };
 
   addProductItem(newProductItem: ProductItemDTO) {
