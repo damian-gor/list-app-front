@@ -42,7 +42,6 @@ export class ShoppingListComponent implements OnInit {
   
   
   ngOnInit(): void {
-
     if (this.uploadSuccess) {
       this.uploadSuccess.subscribe(data => {
         this.shoppingListService.getShoppingList(data).subscribe(data => {

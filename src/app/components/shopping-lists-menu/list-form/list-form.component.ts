@@ -113,4 +113,8 @@ export class ListFormComponent implements OnInit {
     this.list.shopName = selectedShopFromDB.name;
     this.list.shopPromotionUrl = selectedShopFromDB.promotionUrl;
   }
+
+  cancel() {
+    this.formSubmit.emit(null);
+  }
 }

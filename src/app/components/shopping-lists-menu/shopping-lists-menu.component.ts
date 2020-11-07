@@ -31,9 +31,9 @@ export class ShoppingListsMenuComponent implements OnInit {
       $('#loading-spinner-parent')[0].classList.remove("hidden");
       this.getAllShoppingLists();
     }
-    
+
   }
-  
+
   getAllShoppingLists() {
     this.shoppingListService.getAllShoppingLists().subscribe(result => {
       if (result.length > 0) {
@@ -128,10 +128,14 @@ export class ShoppingListsMenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) this.shoppingListService.deleteShoppingList(selectedList.id).subscribe(() => {
         this.lists.splice(this.lists.indexOf(selectedList), 1);
+        $('#app-shopping-list')[0].classList.add("hidden");
         if (this.lists.length == 0) {
           $('#listId').val(0);
           $('#noListsAvailableOption')[0].classList.remove("hidden");
+        } else {
+          $('#listId').val(this.lists[0].id);
         }
+        this.checkDeleteBtnAvailability();
       });
     });
   }
@@ -157,6 +161,11 @@ export class ShoppingListsMenuComponent implements OnInit {
       if (l.id == $('#listId').children("option:selected").val()) selectedList = l;
     })
     window.open(selectedList.shopPromotionUrl);
+  }
+
+  hidePreviousList() {
+    $('#app-shopping-list')[0].classList.add("hidden");
+    this.checkDeleteBtnAvailability();
   }
 }
 

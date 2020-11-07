@@ -62,4 +62,8 @@ export class ProductFormComponent implements OnInit {
     this.product.category = null;
     this.product.unit = null;
   }
+
+  cancel () {
+    this.formSubmit.emit(null);
+  }
 }

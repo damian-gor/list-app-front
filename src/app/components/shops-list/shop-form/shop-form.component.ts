@@ -45,4 +45,7 @@ export class ShopFormComponent implements OnInit {
       this.shop = new Shop();
   }
 
+  cancel() {
+    this.formSubmit.emit(null);
+  }
 }

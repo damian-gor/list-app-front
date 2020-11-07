@@ -94,10 +94,11 @@ export class ProductItemFormComponent implements OnInit {
       product.category = this.productItem.category;
       product.unit = this.productItem.unit;
       if (this.productFrodDbToUpdateId == null) {
+        this.formSubmit.emit(this.productItem);
         this.productService.addProduct(product).subscribe(data => {
           this.productItem.sourceProductId = data.id;
           this.productItemService.addProductItem(this.productItem).subscribe(result => {
-            this.formSubmit.emit(result);
+            // this.formSubmit.emit(result);
             form.reset();
             this.resetProductItem();
           }
@@ -136,6 +137,10 @@ export class ProductItemFormComponent implements OnInit {
     this.productItem.category = selectedProductFromDB.category;
     this.productItem.unit = selectedProductFromDB.unit;
     this.productFrodDbToUpdateId = selectedProductFromDB.id;
+  }
+
+  cancel() {
+    this.formSubmit.emit(null);
   }
 
 }

@@ -101,7 +101,6 @@ export class MenuToolbarComponent implements OnInit {
   }
   
   logout(): void {
-    console.log('wpadlem tu');
     this.tokenStorageService.signOut();
     window.location.reload();
   }
