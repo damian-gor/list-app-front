@@ -35,9 +35,11 @@ export class ProductsListComponent implements OnInit {
       $('#logInCommunicate-prod')[0].classList.remove("hidden");
     }
     else {
-      $('#app-products-list')[0].classList.remove("hidden");
+      $('#loading-spinner-prod')[0].classList.remove("hidden");
       this.productService.getAllProducts().subscribe(data => {
         this.products = data;
+        $('#loading-spinner-prod')[0].classList.add("hidden");
+        $('#app-products-list')[0].classList.remove("hidden");
       });
     }
   }

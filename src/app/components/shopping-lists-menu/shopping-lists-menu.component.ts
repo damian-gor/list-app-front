@@ -28,16 +28,18 @@ export class ShoppingListsMenuComponent implements OnInit {
     if (this.tokenStorageService.getUser() == null) {
       $('#logInCommunicate-lists')[0].classList.remove("hidden");
     } else {
-      $('#app-shopping-lists')[0].classList.remove("hidden");
+      $('#loading-spinner-parent')[0].classList.remove("hidden");
       this.getAllShoppingLists();
     }
-
+    
   }
-
+  
   getAllShoppingLists() {
     this.shoppingListService.getAllShoppingLists().subscribe(result => {
       if (result.length > 0) {
         this.lists = result;
+        $('#loading-spinner-parent')[0].classList.add("hidden");
+        $('#app-shopping-lists')[0].classList.remove("hidden");
         if (this.lists[0].buyer.userName == this.tokenStorageService.getUser().username) {
           $('#deleteListBtn')[0].classList.remove("hidden");
           $('#edit-list-btn')[0].classList.remove("hidden");
@@ -51,6 +53,8 @@ export class ShoppingListsMenuComponent implements OnInit {
   }
 
   loadList() {
+    $('#loading-spinner-child')[0].classList.remove("hidden");
+    $('#app-shopping-list')[0].classList.add("hidden");
     this.selectedListId = $('#listId').children("option:selected").val();
     this.uploadSuccess.emit(this.selectedListId);
     $('#shopping-list-container').removeAttr("hidden");

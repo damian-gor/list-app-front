@@ -42,12 +42,15 @@ export class ShoppingListComponent implements OnInit {
   
   
   ngOnInit(): void {
+
     if (this.uploadSuccess) {
       this.uploadSuccess.subscribe(data => {
         this.shoppingListService.getShoppingList(data).subscribe(data => {
           this.shoppingList = data;
           this.productsList = this.shoppingList.productsList;
           this.checkAvailableCategoriesBtns();
+          $('#loading-spinner-child')[0].classList.add("hidden");
+          $('#app-shopping-list')[0].classList.remove("hidden");
         });
       });
     }

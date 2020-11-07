@@ -1,8 +1,9 @@
 <app-log-in-comunicate class='hidden' [parentComponentName]="'list zakupów'" id='logInCommunicate-lists'></app-log-in-comunicate>
+<app-loading-spinner class='hidden' id='loading-spinner-parent'></app-loading-spinner>
 <div class="card my-1 hidden" id ='app-shopping-lists'>
   <div class="card-body">
     <div class="form-group">
-      <label for="listId">Wybierz listę:</label>
+      <!-- <label for="listId">Wybierz listę:</label> -->
       <select type="number" class="form-control" id="listId" required (change)="checkDeleteBtnAvailability()">
         <option class="hidden" disabled value=0 id="noListsAvailableOption"> Brak list do wyświetlenia </option>
         <option *ngFor="let list of lists" [value]="list.id">Lista nr {{ list.id }}, sklep: {{ list.shopName }}</option>

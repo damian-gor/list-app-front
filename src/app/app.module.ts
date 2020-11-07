@@ -47,6 +47,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MenuToolbarComponent } from './components/menu-toolbar/menu-toolbar.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { LogInComunicateComponent } from './components/log-in-comunicate/log-in-comunicate.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { LogInComunicateComponent } from './components/log-in-comunicate/log-in-
     AddShopModalComponent,
     ShopFormComponent,
     MenuToolbarComponent,
-    LogInComunicateComponent
+    LogInComunicateComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,

@@ -23,9 +23,11 @@ export class ShopsListComponent implements OnInit {
     if (this.tokenStorageService.getUser() == null) {
       $('#logInCommunicate-shops')[0].classList.remove("hidden");
     } else {
-      $('#app-shops-list')[0].classList.remove("hidden");
+      $('#loading-spinner-shops')[0].classList.remove("hidden");
       this.shopService.getAllShops().subscribe(result => {
         this.shops = result;
+        $('#loading-spinner-shops')[0].classList.add("hidden");
+        $('#app-shops-list')[0].classList.remove("hidden");
       });
     }
   }

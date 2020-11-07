@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
         this.content = data;
         $("#connecting-status-waiting").toggleClass("hidden");
         $("#connecting-status-success").toggleClass("hidden");
+        $('#loading-spinner-home')[0].classList.add("hidden");
         if (this.tokenStorageService.getUser() == null) {
           $('#logInCommunicate-home')[0].classList.remove("hidden");
         }
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
         this.content = JSON.parse(err.error).message;
         $("#connecting-status-waiting").toggleClass("hidden");
         $("#connecting-status-failed").toggleClass("hidden");
+        $('#loading-spinner-home')[0].classList.add("hidden");
       }
     );
   }

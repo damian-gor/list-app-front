@@ -1,11 +1,13 @@
 <div class="container">
-  <app-log-in-comunicate class='hidden' [parentComponentName]="'wszystkich funkcjonalności aplikacji'" id='logInCommunicate-home'></app-log-in-comunicate>
-    <header class="jumbotron">
-      <p>{{ content }}</p>
-      <p>Status serwera: 
-        <span id="connecting-status-waiting" style="font-style:italic;color:grey">łączę...</span>
-        <span id="connecting-status-success" style="font-style:italic;color:green" class='hidden'>połączono</span>
-        <span id="connecting-status-failed" style="font-style:italic;color:red" class='hidden'>błąd</span>
-      </p> 
-    </header>
-  </div>
+  <app-log-in-comunicate class='hidden' [parentComponentName]="'wszystkich funkcjonalności aplikacji'"
+    id='logInCommunicate-home'></app-log-in-comunicate>
+  <header class="jumbotron">
+    <p>{{ content }}</p>
+    <p>Status serwera:
+      <span id="connecting-status-waiting" style="font-style:italic;color:grey">łączę...</span>
+      <span id="connecting-status-success" style="font-style:italic;color:green" class='hidden'>połączono</span>
+      <span id="connecting-status-failed" style="font-style:italic;color:red" class='hidden'>błąd</span>
+    </p>
+  </header>
+  <app-loading-spinner id='loading-spinner-home'></app-loading-spinner>
+</div>

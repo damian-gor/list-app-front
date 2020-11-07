@@ -1,4 +1,5 @@
-<div class="card-body">
+<app-loading-spinner id='loading-spinner-child'></app-loading-spinner>
+<div class="card-body" class='hidden' id="app-shopping-list">
   <div>
     <button (click)="addElement()" class="btn btn-primary">Dodaj nowy produkt</button>
     <app-product-item-form (formSubmit)="addProductItem($event)" id='addNewProductItemForm' class='hidden'>
