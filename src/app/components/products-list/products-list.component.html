@@ -1,8 +1,6 @@
-<div class="alert-danger hidden" id="unloggedCommunicate-prod" style="text-align: center; font-style: italic;">
-  Zaloguj się by uzyskać dostęp do listy produktów.
-</div>
-<div class="card-body">
-  <h1>LISTA PRODUKTÓW</h1>
+<app-log-in-comunicate class='hidden' [parentComponentName]="'bazy produktów'" id='logInCommunicate-prod'></app-log-in-comunicate>
+<div class="card-body hidden" id='app-products-list'>
+  <h1>BAZA PRODUKTÓW</h1>
   <table class="table table-bordered table-striped" datatable id="product-db-table" *ngIf="products">
     <thead class="thead-dark">
       <tr>

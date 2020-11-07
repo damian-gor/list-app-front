@@ -25,21 +25,24 @@ export class ShoppingListsMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllShoppingLists();
+    if (this.tokenStorageService.getUser() == null) {
+      $('#logInCommunicate-lists')[0].classList.remove("hidden");
+    } else {
+      $('#app-shopping-lists')[0].classList.remove("hidden");
+      this.getAllShoppingLists();
+    }
+
   }
 
   getAllShoppingLists() {
-    if (this.tokenStorageService.getUser() == null) {
-      $('#unloggedCommunicate-lists')[0].classList.remove("hidden");
-    }
-    else this.shoppingListService.getAllShoppingLists().subscribe(result => {
+    this.shoppingListService.getAllShoppingLists().subscribe(result => {
       if (result.length > 0) {
         this.lists = result;
         if (this.lists[0].buyer.userName == this.tokenStorageService.getUser().username) {
           $('#deleteListBtn')[0].classList.remove("hidden");
           $('#edit-list-btn')[0].classList.remove("hidden");
         }
-      } 
+      }
       else {
         $('#noListsAvailableOption')[0].classList.remove("hidden");
         $('#listId').val(0);
@@ -92,7 +95,7 @@ export class ShoppingListsMenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe(newList => {
       if (newList) {
         this.lists.push(newList);
-        if (this.lists.length==1) $('#noListsAvailableOption')[0].classList.add("hidden");
+        if (this.lists.length == 1) $('#noListsAvailableOption')[0].classList.add("hidden");
         $(function () {
           $('#listId').val(newList.id);
           $('#load-list-btn').trigger('click');
@@ -121,8 +124,7 @@ export class ShoppingListsMenuComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) this.shoppingListService.deleteShoppingList(selectedList.id).subscribe(() => {
         this.lists.splice(this.lists.indexOf(selectedList), 1);
-        if (this.lists.length == 0) 
-        {
+        if (this.lists.length == 0) {
           $('#listId').val(0);
           $('#noListsAvailableOption')[0].classList.remove("hidden");
         }

@@ -32,14 +32,16 @@ export class ProductsListComponent implements OnInit {
     this.productsUnitMap = this.sharedService.productsUnitMap;
     this.statuses = Object.keys(ProductItemStatus);
     if (this.tokenStorageService.getUser() == null) {
-      $('#unloggedCommunicate-prod')[0].classList.remove("hidden");
+      $('#logInCommunicate-prod')[0].classList.remove("hidden");
     }
-    else
-    this.productService.getAllProducts().subscribe(data => {
-      this.products = data;
-    });
+    else {
+      $('#app-products-list')[0].classList.remove("hidden");
+      this.productService.getAllProducts().subscribe(data => {
+        this.products = data;
+      });
+    }
   }
-  
+
   addProduct() {
     const dialogRef = this.dialog.open(AddProductModalComponent, {
       width: '580px',

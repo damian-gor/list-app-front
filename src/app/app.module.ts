@@ -46,6 +46,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MenuToolbarComponent } from './components/menu-toolbar/menu-toolbar.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { LogInComunicateComponent } from './components/log-in-comunicate/log-in-comunicate.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     ShopsListComponent,
     AddShopModalComponent,
     ShopFormComponent,
-    MenuToolbarComponent
+    MenuToolbarComponent,
+    LogInComunicateComponent
   ],
   imports: [
     BrowserModule,

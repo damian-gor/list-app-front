@@ -9,7 +9,7 @@ import { ProductItemStatus } from 'src/app/models/enums/product-item-status.enum
 import { ProductItemService } from 'src/app/services/shoppingList/productItem/product-item.service';
 import { ShoppingListDTO } from 'src/app/models/shopping-list-dto';
 import { ProductItemDTO } from 'src/app/models/product-item-dto';
-
+import { PdfService } from 'src/app/services/pdf/pdf.service';
 
 @Component({
   selector: 'app-shopping-list',
@@ -34,7 +34,8 @@ export class ShoppingListComponent implements OnInit {
   constructor(private shoppingListService: ShoppingListService,
     private sharedService: SharedService,
     private productItemService: ProductItemService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private pdfService: PdfService) {
     this.productsCategoryMap = this.sharedService.productsCategoryMap;
     this.productsUnitMap = this.sharedService.productsUnitMap;
   }
@@ -251,5 +252,11 @@ export class ShoppingListComponent implements OnInit {
         this.checkAvailableCategoriesBtns();
       })
   };
+
+  getPdf() {
+    this.pdfService.getListPdf(this.shoppingList.id);
+    console.log('btn dziala');
+  }
+
 }
 

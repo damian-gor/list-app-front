@@ -1,7 +1,5 @@
-<div class="alert-danger hidden" id="unloggedCommunicate-lists" style="text-align: center; font-style: italic;">
-  Zaloguj się by uzyskać dostęp do list zakupów.
-</div>
-<div class="card my-1">
+<app-log-in-comunicate class='hidden' [parentComponentName]="'list zakupów'" id='logInCommunicate-lists'></app-log-in-comunicate>
+<div class="card my-1 hidden" id ='app-shopping-lists'>
   <div class="card-body">
     <div class="form-group">
       <label for="listId">Wybierz listę:</label>

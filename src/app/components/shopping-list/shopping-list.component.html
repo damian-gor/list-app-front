@@ -24,7 +24,12 @@
 
   <mat-slide-toggle id="mode" [(ngModel)]="isZakupyMode">Tryb zakupów</mat-slide-toggle>
 
-  <h1>LISTA ZAKUPÓW</h1>
+  <div style="display: flex; align-items: baseline;">
+    <h1>LISTA ZAKUPÓW</h1>
+    <button (click)="getPdf()" [ngClass]="{ 'hidden': isZakupyMode }" style="width: fit-content;" mat-menu-item>
+      <mat-icon class="mr" style="margin-right: 4px;">print</mat-icon>
+    </button>
+  </div>
   <ul id="shopping-list-table" *ngIf="productsList" class="list-group">
     <li *ngFor="let product of productsList" class="product-item list-group-item {{ product.category }}" [ngClass]="{
           'bought': product.productStatus === 'BOUGHT',

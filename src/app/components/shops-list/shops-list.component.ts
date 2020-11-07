@@ -21,11 +21,13 @@ export class ShopsListComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.tokenStorageService.getUser() == null) {
-      $('#unloggedCommunicate-shops')[0].classList.remove("hidden");
-    } else
-    this.shopService.getAllShops().subscribe(result => {
-      this.shops = result;
-    });
+      $('#logInCommunicate-shops')[0].classList.remove("hidden");
+    } else {
+      $('#app-shops-list')[0].classList.remove("hidden");
+      this.shopService.getAllShops().subscribe(result => {
+        this.shops = result;
+      });
+    }
   }
 
   getAllShops() {
@@ -84,7 +86,7 @@ export class ShopsListComponent implements OnInit {
         shoppingListsIds += shoppingList.id;
       })
 
-      komunikat += "\nUwaga! Sklep przypisany jest do aktywnych list zakupów. Jego usunięcie spowoduje także usunięcie list zakupów o id: " + shoppingListsIds +".";
+      komunikat += "\nUwaga! Sklep przypisany jest do aktywnych list zakupów. Jego usunięcie spowoduje także usunięcie list zakupów o id: " + shoppingListsIds + ".";
     }
 
     const dialogData = new ConfirmDialogModel("Usuń sklep o nazwie: " + shop.name, komunikat);
@@ -100,7 +102,8 @@ export class ShopsListComponent implements OnInit {
           .subscribe(() => {
             this.shops.splice(this.shops.indexOf(shop), 1);
           });
-      }});
+      }
+    });
   }
 
   gazetkaRedirection(shop: Shop) {
