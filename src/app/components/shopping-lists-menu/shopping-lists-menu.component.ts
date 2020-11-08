@@ -39,10 +39,13 @@ export class ShoppingListsMenuComponent implements OnInit {
       if (result.length > 0) {
         this.lists = result;
         this.loadList();
+        // initial btns checking
         if (this.lists[0].buyer.userName == this.tokenStorageService.getUser().username) {
           $('#deleteListBtn')[0].classList.remove("hidden");
           $('#edit-list-btn')[0].classList.remove("hidden");
-        } 
+        }
+        if (this.lists[0].shopPromotionUrl) $('#gazetka-btn')[0].classList.remove("hidden");
+        else $('#gazetka-btn')[0].classList.add("hidden");
       }
       else {
         $('#noListsAvailableOption')[0].classList.remove("hidden");
@@ -156,6 +159,8 @@ export class ShoppingListsMenuComponent implements OnInit {
           $('#deleteListBtn')[0].classList.add("hidden");
           $('#edit-list-btn')[0].classList.add("hidden");
         }
+        if (list.shopPromotionUrl) $('#gazetka-btn')[0].classList.remove("hidden"); // gazetka-btn check
+        else $('#gazetka-btn')[0].classList.add("hidden");
       }
     });
   }
