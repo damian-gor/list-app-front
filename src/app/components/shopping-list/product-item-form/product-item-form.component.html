@@ -49,7 +49,7 @@
       <label for="ifAddToDb" class='checkbox-label'>Dodaj do bazy produktów</label>
     </div>
     <button type="submit"
-      [disabled]="!productItemForm.form.valid || productItemForm.form.value.quantity<0 || productItem.category == null"
+      [disabled]="!productItemForm.form.valid || productItemForm.form.value.quantity<=0 || productItem.category == null"
       class="btn btn-info">
       <span *ngIf="productItem.id==undefined">Dodaj</span>
       <span *ngIf="productItem.id">Zapisz</span>

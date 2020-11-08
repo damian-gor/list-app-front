@@ -28,7 +28,7 @@ export class ShoppingListComponent implements OnInit {
   productCategoriesKeys = Object.keys(ProductCategory);
   selectedCategoriesList: String[] = new Array<String>();
   availavleCategories: String[] = new Array<String>();
-  isZakupyMode:boolean = false;
+  isZakupyMode: boolean = false;
 
 
   constructor(private shoppingListService: ShoppingListService,
@@ -39,8 +39,8 @@ export class ShoppingListComponent implements OnInit {
     this.productsCategoryMap = this.sharedService.productsCategoryMap;
     this.productsUnitMap = this.sharedService.productsUnitMap;
   }
-  
-  
+
+
   ngOnInit(): void {
     if (this.uploadSuccess) {
       this.uploadSuccess.subscribe(data => {
@@ -56,10 +56,12 @@ export class ShoppingListComponent implements OnInit {
   };
 
   addProductItem(newProductItem: ProductItemDTO) {
+    $('#spinner-li')[0].classList.remove("hidden");
     this.shoppingListService.addProductItemToShoppingList(newProductItem, this.selectedListId)
       .subscribe(result => {
         this.productsList.push(result.productsList[result.productsList.length - 1]);
         this.checkAvailableCategoriesBtns();
+        $('#spinner-li')[0].classList.add("hidden");
       });
   };
 
@@ -154,26 +156,25 @@ export class ShoppingListComponent implements OnInit {
     });
   }
 
-  setAsBought(event, productItemDTO: ProductItemDTO) {
+  setAsBought(productItemDTO: ProductItemDTO) {
     productItemDTO.productStatus != ProductItemStatus.BOUGHT ?
-    productItemDTO.productStatus = ProductItemStatus.BOUGHT : productItemDTO.productStatus = ProductItemStatus.IN_PROGRESS;
+      productItemDTO.productStatus = ProductItemStatus.BOUGHT : productItemDTO.productStatus = ProductItemStatus.IN_PROGRESS;
 
     this.updateProductItemStatusInShoppingList(productItemDTO);
   };
 
-  setAsNotAvailable(event, productItemDTO: ProductItemDTO) {
+  setAsNotAvailable(productItemDTO: ProductItemDTO) {
     productItemDTO.productStatus != ProductItemStatus.NOT_AVAILABLE ?
-    productItemDTO.productStatus = ProductItemStatus.NOT_AVAILABLE : productItemDTO.productStatus = ProductItemStatus.IN_PROGRESS;
+      productItemDTO.productStatus = ProductItemStatus.NOT_AVAILABLE : productItemDTO.productStatus = ProductItemStatus.IN_PROGRESS;
 
     this.updateProductItemStatusInShoppingList(productItemDTO);
   };
 
   removeElement(productItemDTO: ProductItemDTO) {
+    this.productsList.splice(this.productsList.indexOf(productItemDTO), 1);
+    this.checkAvailableCategoriesBtns();
     this.shoppingListService.removeProductItemFromList(productItemDTO, this.selectedListId)
-      .subscribe(response => {
-        this.productsList.splice(this.productsList.indexOf(productItemDTO), 1);
-        this.checkAvailableCategoriesBtns();
-      }
+      .subscribe(response => { }
       );
   };
 
@@ -257,7 +258,7 @@ export class ShoppingListComponent implements OnInit {
 
   getPdf() {
     this.pdfService.getListPdf(this.shoppingList.id);
-    console.log('btn dziala');
+    console.log('ToDo');
   }
 
 }

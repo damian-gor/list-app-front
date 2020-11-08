@@ -36,7 +36,7 @@
           'bought': product.productStatus === 'BOUGHT',
           'not-available': product.productStatus === 'NOT_AVAILABLE'
         }" id='{{ product.id }}'>
-      <button (click)="setAsBought($event, product)" class="list-item-button bought-btn"
+      <button (click)="setAsBought(product)" class="list-item-button bought-btn"
         [ngClass]="{ 'hidden': !isZakupyMode }"></button>
       <span>
         {{ product.quantity }} {{ product.unit }}: <b> {{ product.name }} </b> <i>
@@ -47,8 +47,11 @@
         [ngClass]="{ 'hidden': isZakupyMode }"></button>
       <button (click)="editElement(product)" class="list-item-button edit-btn"
         [ngClass]="{ 'hidden': isZakupyMode }"></button>
-      <button (click)="setAsNotAvailable($event, product)" class="list-item-button notAvailable-btn"
+      <button (click)="setAsNotAvailable(product)" class="list-item-button notAvailable-btn"
         [ngClass]="{ 'hidden': !isZakupyMode }"></button>
+    </li>
+    <li class="list-group spinner-li hidden" id='spinner-li'>
+      <img src="../../../assets/gifs/spinner.gif">
     </li>
   </ul>
 </div>

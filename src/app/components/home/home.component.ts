@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from 'src/app/services/auth/token-storage.service';
 import { UserService } from 'src/app/services/auth/user.service';
+import * as global from 'src/global';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +11,13 @@ import { UserService } from 'src/app/services/auth/user.service';
 export class HomeComponent implements OnInit {
 
   content: string;
+  appVersion: string;
 
   constructor(
     private userService: UserService,
-    private tokenStorageService: TokenStorageService) { }
+    private tokenStorageService: TokenStorageService) {
+    this.appVersion = global.VERSION;
+  }
 
   ngOnInit(): void {
     this.userService.getPublicContent().subscribe(

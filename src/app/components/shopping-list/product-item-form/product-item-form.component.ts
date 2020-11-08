@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ProductUnit } from 'src/app/models/enums/product-unit.enum';
 import { ProductCategory } from '../../../models/enums/product-category.enum';
 import { SharedService } from 'src/app/services/sharedService/shared.service';
@@ -37,8 +36,7 @@ export class ProductItemFormComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private sharedService: SharedService,
-    private productItemService: ProductItemService,
-    private http: HttpClient) {
+    private productItemService: ProductItemService) {
       this.resetProductItem();
     }
     
@@ -142,5 +140,4 @@ export class ProductItemFormComponent implements OnInit {
   cancel() {
     this.formSubmit.emit(null);
   }
-
 }

@@ -38,7 +38,11 @@ export class ShoppingListsMenuComponent implements OnInit {
     this.shoppingListService.getAllShoppingLists().subscribe(result => {
       if (result.length > 0) {
         this.lists = result;
-        this.loadList()
+        this.loadList();
+        if (this.lists[0].buyer.userName == this.tokenStorageService.getUser().username) {
+          $('#deleteListBtn')[0].classList.remove("hidden");
+          $('#edit-list-btn')[0].classList.remove("hidden");
+        } 
       }
       else {
         $('#noListsAvailableOption')[0].classList.remove("hidden");
@@ -46,7 +50,6 @@ export class ShoppingListsMenuComponent implements OnInit {
       }
       $('#loading-spinner-parent')[0].classList.add("hidden");
       $('#app-shopping-lists')[0].classList.remove("hidden");
-      this.checkDeleteBtnAvailability();
     });
   }
 
@@ -60,6 +63,7 @@ export class ShoppingListsMenuComponent implements OnInit {
     }
     this.uploadSuccess.emit(this.selectedListId);
     $('#shopping-list-container').removeAttr("hidden");
+    this.checkDeleteBtnAvailability();
   }
 
   editList() {

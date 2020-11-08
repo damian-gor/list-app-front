@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product/product.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ProductCategory } from '../../../models/enums/product-category.enum';
 import { SharedService } from '../../../services/sharedService/shared.service';
 import { ProductUnit } from 'src/app/models/enums/product-unit.enum';
@@ -23,8 +22,6 @@ export class ProductFormComponent implements OnInit {
   @Output() formSubmit: EventEmitter<Product> = new EventEmitter<Product>();
 
   constructor(
-    // private route: ActivatedRoute,
-    // private router: Router,
     private productService: ProductService,
     private sharedService: SharedService) {
     this.resetProduct();
