@@ -49,3 +49,7 @@ body {
   background-color: azure!important;
   border-color: #007bff!important;
 }
+
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
