@@ -98,7 +98,7 @@ export class ProductItemFormComponent implements OnInit {
         this.productService.addProduct(product).subscribe(data => {
           this.productItem.sourceProductId = data.id;
           this.productItemService.addProductItem(this.productItem).subscribe(result => {
-            // this.formSubmit.emit(result);
+            this.formSubmit.emit(result);
             form.reset();
             this.resetProductItem();
           }
@@ -128,7 +128,7 @@ export class ProductItemFormComponent implements OnInit {
     this.productItem = new ProductItemDTO();
     this.productItem.category = null;
     this.productItem.unit = null;
-    this.productItem.ifAddToDb = false;
+    this.productItem.ifAddToDb = true;
     this.productItem.productStatus = ProductItemStatus.IN_PROGRESS;
   }
 

@@ -38,24 +38,26 @@ export class ShoppingListsMenuComponent implements OnInit {
     this.shoppingListService.getAllShoppingLists().subscribe(result => {
       if (result.length > 0) {
         this.lists = result;
-        $('#loading-spinner-parent')[0].classList.add("hidden");
-        $('#app-shopping-lists')[0].classList.remove("hidden");
-        if (this.lists[0].buyer.userName == this.tokenStorageService.getUser().username) {
-          $('#deleteListBtn')[0].classList.remove("hidden");
-          $('#edit-list-btn')[0].classList.remove("hidden");
-        }
+        this.loadList()
       }
       else {
         $('#noListsAvailableOption')[0].classList.remove("hidden");
         $('#listId').val(0);
       }
+      $('#loading-spinner-parent')[0].classList.add("hidden");
+      $('#app-shopping-lists')[0].classList.remove("hidden");
+      this.checkDeleteBtnAvailability();
     });
   }
 
   loadList() {
+    this.hidePreviousList()
     $('#loading-spinner-child')[0].classList.remove("hidden");
     $('#app-shopping-list')[0].classList.add("hidden");
     this.selectedListId = $('#listId').children("option:selected").val();
+    if (this.selectedListId == undefined) {
+      this.selectedListId = this.lists[0].id;
+    }
     this.uploadSuccess.emit(this.selectedListId);
     $('#shopping-list-container').removeAttr("hidden");
   }
@@ -98,19 +100,18 @@ export class ShoppingListsMenuComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(newList => {
       if (newList) {
+        $('#app-shopping-lists')[0].classList.remove("hidden");
         this.lists.push(newList);
         if (this.lists.length == 1) $('#noListsAvailableOption')[0].classList.add("hidden");
+        this.selectedListId = newList.id;
         $(function () {
           $('#listId').val(newList.id);
-          $('#load-list-btn').trigger('click');
-        });
-        if (newList.buyer.userName == this.tokenStorageService.getUser().username) {
-          $('#deleteListBtn')[0].classList.remove("hidden");
-          $('#edit-list-btn')[0].classList.remove("hidden");
-        }
+          $('#listId')[0].dispatchEvent(new Event('change'));
+        })
       }
     });
   }
+
 
   deleteList() {
     var selectedList;

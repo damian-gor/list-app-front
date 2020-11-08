@@ -3,11 +3,12 @@
 <div class="card my-1 hidden" id ='app-shopping-lists'>
   <div class="card-body">
     <div class="form-group">
-      <select type="number" class="form-control" id="listId" required (change)="hidePreviousList()">
+      <select type="number" class="form-control" id="listId" required (change)="loadList()">
         <option class="hidden" disabled value=0 id="noListsAvailableOption"> Brak list do wyświetlenia </option>
-        <option *ngFor="let list of lists" [value]="list.id">Lista nr {{ list.id }}, sklep: {{ list.shopName }}</option>
+        <option *ngFor="let list of lists" [value]="list.id">Lista nr {{ list.id }}, sklep: {{ list.shopName }}, 
+          autor: {{ list.buyer.userName }}
+        </option>
       </select>
-      <button type="submit" (click)="loadList()" class="btn btn-info" id='load-list-btn'>Wybierz</button>
       <button type="submit" (click)="editList()" class="btn btn-info hidden" id='edit-list-btn'>Edytuj</button>
       <button type="submit" (click)="createNewList()" class="btn btn-info">Dodaj nową listę</button>
       <button type="submit" (click)="gazetkaRedirection()" class="btn btn-link">Zobacz gazetkę</button>
