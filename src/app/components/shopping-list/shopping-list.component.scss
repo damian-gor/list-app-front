@@ -22,8 +22,31 @@
 .notAvailable-btn {
   background-image: url('../../../assets/icons/sad.svg');
   background-position: center;
-  float: right;
-  padding-right: 10vh;
+  position: absolute;
+  right: 10px
+}
+
+.delete-btn {
+  position: absolute;
+  right: 10px
+}
+
+.edit-btn {
+  position: absolute;
+  right: 50px
+}
+
+.zakupy-mode-padding {
+  padding-right: 50px;
+}
+
+.edycja-mode-padding {
+  padding-right: 80px;
+}
+
+.list-group-item {
+  display: flex;
+  min-height: 70px;
 }
 
 .productItemAuthor{
@@ -40,4 +63,15 @@
 .spinner-li img {
   height: 25px;
   width: 25px;
+}
+
+.fab-container {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
+.fab-add-element {
+  float: right;
+  z-index: 100;
 }

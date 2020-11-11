@@ -1,14 +1,30 @@
-<app-log-in-comunicate class='hidden' [parentComponentName]="'list zakupów'" id='logInCommunicate-lists'></app-log-in-comunicate>
+<app-log-in-comunicate class='hidden' [parentComponentName]="'list zakupów'" id='logInCommunicate-lists'>
+</app-log-in-comunicate>
 <app-loading-spinner class='hidden' id='loading-spinner-parent'></app-loading-spinner>
-<div class="card my-1 hidden" id ='app-shopping-lists'>
-  <div class="card-body">
-    <div class="form-group">
-      <select type="number" class="form-control" id="listId" required (change)="loadList()">
-        <option class="hidden" disabled value=0 id="noListsAvailableOption"> Brak list do wyświetlenia </option>
-        <option *ngFor="let list of lists" [value]="list.id">Lista nr {{ list.id }}, sklep: {{ list.shopName }}, 
-          autor: {{ list.buyer.userName }}
-        </option>
-      </select>
+<div class="card my-1 hidden" id='app-shopping-lists'>
+  <div class="form-group">
+    <div style="display: flex;">
+      <div style="width: -webkit-fill-available">
+        <select type="number" class="form-control" id="listId" required (change)="loadList()">
+          <option class="hidden" disabled value=0 id="noListsAvailableOption"> Brak list do wyświetlenia </option>
+          <option *ngFor="let list of lists" [value]="list.id">Lista nr {{ list.id }}, sklep: {{ list.shopName }},
+            autor: {{ list.buyer.userName }}
+          </option>
+        </select>
+      </div>
+      <button mat-icon-button [matMenuTriggerFor]="dropMenu" fxHide fxShow.xs>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #dropMenu="matMenu">
+        <ng-container>
+          <button mat-menu-item (click)="editList()"><mat-icon>edit</mat-icon>Edytuj</button>
+          <button mat-menu-item (click)="createNewList()"><mat-icon>add</mat-icon>Dodaj</button>
+          <button mat-menu-item (click)="gazetkaRedirection()"><mat-icon>menu_book</mat-icon>Gazetka</button>
+          <button mat-menu-item (click)="deleteList()"><mat-icon>delete</mat-icon>Usuń</button>
+        </ng-container>
+     </mat-menu>
+    </div>
+    <div class='big-device-btns' fxHide.xs>
       <button type="submit" (click)="editList()" class="btn btn-info hidden" id='edit-list-btn'>Edytuj</button>
       <button type="submit" (click)="createNewList()" class="btn btn-info">Dodaj nową listę</button>
       <button type="submit" (click)="gazetkaRedirection()" class="btn btn-link" id='gazetka-btn'>Zobacz gazetkę</button>
@@ -16,6 +32,6 @@
     </div>
   </div>
   <div id='shopping-list-container' hidden>
-    <app-shopping-list [selectedListId]="selectedListId" [uploadSuccess] = "uploadSuccess"></app-shopping-list>
+    <app-shopping-list [selectedListId]="selectedListId" [uploadSuccess]="uploadSuccess"></app-shopping-list>
   </div>
 </div>

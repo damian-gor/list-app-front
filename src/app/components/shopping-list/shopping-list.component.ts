@@ -29,6 +29,9 @@ export class ShoppingListComponent implements OnInit {
   selectedCategoriesList: String[] = new Array<String>();
   availavleCategories: String[] = new Array<String>();
   isZakupyMode: boolean = false;
+  isUkryjZrealizowane: boolean = false;
+  isUkryjAutora: boolean = false;
+  isWyswietlWszystkieKat: boolean = true;
 
 
   constructor(private shoppingListService: ShoppingListService,
@@ -68,7 +71,7 @@ export class ShoppingListComponent implements OnInit {
   toggleAllCategories() {
     if (this.checkIfAnyCategorySelected()) {
       $("#allCategoriesBtn").toggleClass(["btn-success", "btn-light"])
-      if ($("#allCategoriesBtn").hasClass("btn-success")) { //zaznaczenie widocznosci wszystkich kategorii
+      if (this.isWyswietlWszystkieKat) { //zaznaczenie widocznosci wszystkich kategorii
         $("#category-buttons .btn").toArray().forEach(btn => btn.classList.replace("btn-primary", "btn-light"));
         $("#shopping-list-table li").toArray().forEach(item => {
           if (item.hidden) item.hidden = false;
@@ -218,31 +221,6 @@ export class ShoppingListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(newProductItemDTO => {
       if (newProductItemDTO) this.addProductItem(newProductItemDTO)
     });
-  }
-
-  toggleRealisedProductItems() {
-    $("#toggleRealisedBtn").toggleClass(["btn-success", "btn-light"]);
-    if ($("#toggleRealisedBtn").hasClass("btn-success")) {
-      $("#shopping-list-table li").toArray().forEach(item => {
-        if (item.classList.contains("bought") || item.classList.contains("not-available"))
-          item.classList.add("hidden");
-      });
-    } else {
-      $("#shopping-list-table li").toArray().forEach(item => {
-        if (item.classList.contains("bought") || item.classList.contains("not-available"))
-          item.classList.remove("hidden");
-      });
-    }
-    this.checkAvailableCategoriesBtns();
-  }
-
-  toggleAuthor() {
-    $("#toggleAuthorBtn").toggleClass(["btn-success", "btn-light"]);
-    if ($("#toggleAuthorBtn").hasClass("btn-success")) { // ukrywamy autora
-      $('.productItemAuthor').toArray().forEach(a => a.classList.add("hidden"));
-    } else { // pokazujemy
-      $('.productItemAuthor').toArray().forEach(a => a.classList.remove("hidden"));
-    }
   }
 
   // Pomocnicza: zaktualizowanie statutsu elementu z liście w DB
