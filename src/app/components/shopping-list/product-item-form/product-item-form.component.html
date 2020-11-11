@@ -11,7 +11,7 @@
           <mat-option *ngIf="isLoading" class="is-loading" >Szukam...</mat-option>
           <ng-container *ngIf="!isLoading">
             <mat-option *ngFor="let prod of filteredProducts" [value]="prod.name" (onSelectionChange)="onDbProductSelected(prod)">
-              <span><b>{{prod.name}}</b> ({{prod.category}})</span>
+              <span><b>{{prod.name}}</b> ({{ productsCategoryMap.get(prod.category) }})</span>
             </mat-option>
           </ng-container>
         </mat-autocomplete>

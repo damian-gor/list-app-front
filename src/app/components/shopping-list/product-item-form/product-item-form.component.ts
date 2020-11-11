@@ -31,16 +31,19 @@ export class ProductItemFormComponent implements OnInit {
   errorMsg: string;
   value: string = "";
 
+  previouslySearchedWord: string = null;
+  currentlySearchedWord: any;
+
   @Output() formSubmit: EventEmitter<ProductItemDTO> = new EventEmitter<ProductItemDTO>();
 
   constructor(
     private productService: ProductService,
     private sharedService: SharedService,
     private productItemService: ProductItemService) {
-      this.resetProductItem();
-    }
-    
-    ngOnInit(): void {
+    this.resetProductItem();
+  }
+
+  ngOnInit(): void {
     $('.mat-form-field').removeClass('mat-form-field');
     $('.mat-form-field-appearance-legacy').removeClass('mat-form-field-appearance-legacy');
     $('.mat-form-field-wrapper').removeClass('mat-form-field-wrapper');
@@ -56,11 +59,13 @@ export class ProductItemFormComponent implements OnInit {
       .pipe(
         debounceTime(500),
         filter(value => value),
-        filter(value => value.length >= 1),
+        filter(value => value.length >= 2),
+        filter(value => !(this.previouslySearchedWord && value.includes(this.previouslySearchedWord))),
         tap(() => {
           this.errorMsg = "";
           this.filteredProducts = [];
           this.isLoading = true;
+          this.currentlySearchedWord = this.searchedProductsControl.value;
         }),
         switchMap(value =>
           this.productService.filterProductsByName(value).pipe(
@@ -77,6 +82,7 @@ export class ProductItemFormComponent implements OnInit {
         } else {
           this.errorMsg = "";
           this.filteredProducts = data;
+          this.previouslySearchedWord = (data.length == 0) ? this.currentlySearchedWord : null;
         }
       });
   }
